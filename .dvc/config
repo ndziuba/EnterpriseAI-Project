@@ -1,2 +1,7 @@
+[core]
+    remote = s3-data-storage
 ['remote "origin"']
     url = https://dagshub.com/ndziuba/EnterpriseAI-Project.dvc
+['remote "s3-data-storage"']
+    url = s3://dagshub/
+    endpointurl = s3.eai.dziubalabs.de
