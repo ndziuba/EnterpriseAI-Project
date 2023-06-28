@@ -17,7 +17,7 @@ Essential steps
 
 Ideas for additional steps (ordered from less to more difficult)
 
-  - [ ] Establish procedures for data validation (and document them!)
+  - [ ] (WIP Tim) Establish procedures for data validation (and document them!)
   - [ ] (WIP m3ndel; not applicable for image classification?)Test feature importance to identify the most relevant features for your model (see lecture 4)
   - [X] (WIP m3ndel) Improve your machine learning model, e.g. by performing hyperparameter tuning or by creating an ensemble (see lecture 6)
   - [ ] Include a feature in your app for users to give feedback on the quality of the predictions
@@ -26,7 +26,7 @@ Ideas for additional steps (ordered from less to more difficult)
   - [ ] Optimize your model, to reduce inference latency and/or model size
   - [ ] Simulate varying traffic levels of prediciton requests. Make your deployment scalable to adapt to the se varying levels
   - [ ] Simulate a model update in production (e.g. via a shadow deployment, A/B test, a canary release,…)
-  - [ ] Get access to a data source that is updated over time. Use it instead of using the static dataset mentioned above. Establish the appropiate measures to handle drift by validating the incoming data. Monitor the performance of your model.
+  - [ ] (WIP Tim) Get access to a data source that is updated over time. Use it instead of using the static dataset mentioned above. Establish the appropiate measures to handle drift by validating the incoming data. Monitor the performance of your model.
   - [ ] In the previous setting: Establish a procedure to update your model. 
   - [ ] Create a system composed of several ML-based microservices that interact (see modes of data flow in lecture 3)
 
