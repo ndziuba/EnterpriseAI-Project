@@ -26,7 +26,7 @@ Ideas for additional steps (ordered from less to more difficult)
   - [ ] Optimize your model, to reduce inference latency and/or model size
   - [ ] Simulate varying traffic levels of prediciton requests. Make your deployment scalable to adapt to the se varying levels
   - [ ] Simulate a model update in production (e.g. via a shadow deployment, A/B test, a canary release,…)
-  - [X] Get access to a data source that is updated over time. Use it instead of using the static dataset mentioned above. Establish the appropiate measures to handle drift by validating the incoming data. Monitor the performance of your model.
+  - [ ] Get access to a data source that is updated over time. Use it instead of using the static dataset mentioned above. Establish the appropiate measures to handle drift by validating the incoming data. Monitor the performance of your model.
   - [ ] In the previous setting: Establish a procedure to update your model. 
   - [ ] Create a system composed of several ML-based microservices that interact (see modes of data flow in lecture 3)
 
