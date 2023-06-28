@@ -21,7 +21,7 @@ Ideas for additional steps (ordered from less to more difficult)
   - [ ] (WIP m3ndel; not applicable for image classification?)Test feature importance to identify the most relevant features for your model (see lecture 4)
   - [X] (WIP m3ndel) Improve your machine learning model, e.g. by performing hyperparameter tuning or by creating an ensemble (see lecture 6)
   - [ ] Include a feature in your app for users to give feedback on the quality of the predictions
-  - [ ] (WIP m3ndel) In case you have little data and/or few labels, apply some data augmentation techniques and/or programmatic labeling techniques (see lecture 4)
+  - [ ] In case you have little data and/or few labels, apply some data augmentation techniques and/or programmatic labeling techniques (see lecture 4)
   - [ ] Evaluate the fairness and robustness of your model with some of the techniques mentioned in the lecture. For example, conduct a slice-based evaluation, perform perturbation tests (e.g. to simulate an adversarial attack)
   - [ ] Optimize your model, to reduce inference latency and/or model size
   - [ ] Simulate varying traffic levels of prediciton requests. Make your deployment scalable to adapt to the se varying levels
