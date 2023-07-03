@@ -21,10 +21,10 @@ Ideas for additional steps (ordered from less to more difficult)
   - [ ] (WIP m3ndel; not applicable for image classification?)Test feature importance to identify the most relevant features for your model (see lecture 4)
   - [X] (WIP m3ndel) Improve your machine learning model, e.g. by performing hyperparameter tuning or by creating an ensemble (see lecture 6)
   - [ ] Include a feature in your app for users to give feedback on the quality of the predictions
-  - [ ] In case you have little data and/or few labels, apply some data augmentation techniques and/or programmatic labeling techniques (see lecture 4)
+  - [X] In case you have little data and/or few labels, apply some data augmentation techniques and/or programmatic labeling techniques (see lecture 4)
   - [ ] Evaluate the fairness and robustness of your model with some of the techniques mentioned in the lecture. For example, conduct a slice-based evaluation, perform perturbation tests (e.g. to simulate an adversarial attack)
-  - [ ] Optimize your model, to reduce inference latency and/or model size
-  - [ ] (Wird manuell möglich sein) Simulate varying traffic levels of prediciton requests. Make your deployment scalable to adapt to the se varying levels
+  - [ ] (WIP m3ndel, evtl. model compression)Optimize your model, to reduce inference latency and/or model size
+  - [ ] (Wird manuell möglich sein) Simulate varying traffic levels of prediciton requests. Make your deployment scalable to adapt to the varying levels
   - [ ] (WIP Nicholas) Simulate a model update in production (e.g. via a shadow deployment, A/B test, a canary release,…)
   - [ ] (WIP Tim) Get access to a data source that is updated over time. Use it instead of using the static dataset mentioned above. Establish the appropiate measures to handle drift by validating the incoming data. Monitor the performance of your model.
   - [ ] In the previous setting: Establish a procedure to update your model. 
