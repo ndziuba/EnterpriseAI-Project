@@ -27,7 +27,7 @@ class TensorFlowDatasetMaterializer(BaseMaterializer):
 """
 Import the data using tf.image_dataset_from_directory.
 """
-@step()
+@step(enable_cache=False, output_materializers=TensorFlowDatasetMaterializer)
 def data_loader(path:str, batch_size:int) -> Output(
     train_ds=tf.data.Dataset,
     valid_ds=tf.data.Dataset,
@@ -62,13 +62,13 @@ def data_loader(path:str, batch_size:int) -> Output(
         image_size = (350, 350),
         batch_size=None
     )
-    # logging.info("Divide additional data")
-    # train_ds = train_ds.concatenate(additional_ds.take(int(len(additional_ds)*0.6)))
-    # valid_ds = valid_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6))
-    #                                  .take(int(len(additional_ds)*0.2)))
-    # test_ds = test_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6))
-    #                                .skip(int(len(additional_ds)*0.2))
-    #                                .take(int(len(additional_ds)*0.2)))
+    logging.info("Divide additional data")
+    train_ds = train_ds.concatenate(additional_ds.take(int(len(additional_ds)*0.6)))
+    valid_ds = valid_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6))
+                                     .take(int(len(additional_ds)*0.2)))
+    test_ds = test_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6))
+                                   .skip(int(len(additional_ds)*0.2))
+                                   .take(int(len(additional_ds)*0.2)))
     # logging.info("Apply augmentation")
     # train_ds = train_ds.map(
     #                  lambda image, label: (stateless_random_flip_left_right(image, seed=(1, 2)) if label[1] == 1 else image, label)
@@ -83,5 +83,5 @@ def data_loader(path:str, batch_size:int) -> Output(
     train_ds = train_ds.batch(batch_size)
     valid_ds = valid_ds.batch(batch_size)
     test_ds = test_ds.batch(batch_size)
-    logging.info("DONE")
+    logging.info("DATA LOADER DONE")
     return train_ds, valid_ds, test_ds
