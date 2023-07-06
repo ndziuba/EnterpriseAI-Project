@@ -1,14 +1,13 @@
 import tensorflow as tf
 import logging
 from tensorflow.keras import Sequential
-from zenml import pipeline, step
-from tensorflow.keras.layers import Flatten
-from keras.layers.core import Dense
+from zenml import step
+from steps.data_loader import TensorFlowDatasetMaterializer
 
 """
 Validate the trained model.
 """
-@step
+@step(enable_cache=False, output_materializers=TensorFlowDatasetMaterializer)
 def model_evaluator(
     test_ds: tf.data.Dataset,
     model: Sequential()

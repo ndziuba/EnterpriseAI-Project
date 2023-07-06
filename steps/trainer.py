@@ -1,14 +1,15 @@
 import tensorflow as tf
 import logging
 from tensorflow.keras import Sequential
-from zenml import pipeline, step
+from zenml import step
 from tensorflow.keras.layers import Flatten
 from keras.layers.core import Dense
+from steps.data_loader import TensorFlowDatasetMaterializer
 
 """
 Train a modified ResNet50 model.
 """
-@step
+@step(enable_cache=False, output_materializers=TensorFlowDatasetMaterializer)
 def resnet_trainer(
     train_ds: tf.data.Dataset,
     valid_ds: tf.data.Dataset,
