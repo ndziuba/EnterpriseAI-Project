@@ -1,4 +1,5 @@
 import tensorflow as tf
+import logging
 from tensorflow.keras import Sequential
 from zenml import pipeline, step
 from tensorflow.keras.layers import Flatten
@@ -23,6 +24,7 @@ def resnet_trainer(
     weights='imagenet'
     )
 
+    logging.info("Trainer step started")
     # exclude pretrained model weights from being recalculated
     for layer in resnet_model.layers:
         layer.trainable = False
@@ -34,9 +36,11 @@ def resnet_trainer(
     model.add(Flatten())
     model.add(Dense(512, tf.nn.relu))
     model.add(Dense(2, tf.nn.softmax))
-
+    logging.info("model loading done")
     # train model
     model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
+    logging.info("Starting model training")
     model.fit(train_ds, validation_data=valid_ds, epochs=epochs)
 
+    logging.info("Trainer step finished")
     return model

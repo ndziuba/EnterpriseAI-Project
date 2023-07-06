@@ -28,7 +28,7 @@ class TensorFlowDatasetMaterializer(BaseMaterializer):
 Import the data using tf.image_dataset_from_directory.
 """
 @step(enable_cache=False, output_materializers=TensorFlowDatasetMaterializer)
-def data_loader(path:str, batch_size:int) -> Output(
+def data_loader(path: str='data', batch_size: int=32) -> Output(
     train_ds=tf.data.Dataset,
     valid_ds=tf.data.Dataset,
     test_ds=tf.data.Dataset,
@@ -55,6 +55,7 @@ def data_loader(path:str, batch_size:int) -> Output(
         image_size = (350, 350),
         batch_size=None
     )
+    
     additional_ds = image_dataset_from_directory(
         directory = path+"/additional",
         seed = 1324,
@@ -78,7 +79,8 @@ def data_loader(path:str, batch_size:int) -> Output(
     #            )
     # valid_ds = valid_ds.map(
     #                  lambda image, label: (stateless_random_flip_left_right(image, seed=(1, 2)) if label[1] == 1 else image, label)
-    #            )
+    #          )
+    
     logging.info("Batching")
     train_ds = train_ds.batch(batch_size)
     valid_ds = valid_ds.batch(batch_size)
