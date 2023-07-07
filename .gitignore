@@ -1,0 +1,22 @@
+# Ignore everything
+*
+
+# Don't ignore the .gitignore file
+!.gitignore
+
+# Don't ignore setup files in the container folder
+!/container/
+!/container/docker-compose.yml.example
+!/container/.env.example
+!/container/caddy/proxy/Caddyfile.example
+!/container/mlflow/Dockerfile
+container/docker-compose.yml
+container/caddy/proxy/Caddyfile
+
+
+# Don't ignore k8s folder and config files
+!/k8s
+!/k8s/*
+!/k8s/config/*
+k8s/iris-deployment.yaml
+k8s/config/.env

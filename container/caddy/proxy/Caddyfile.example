@@ -1,0 +1,32 @@
+{
+    log
+    admin :2019
+    servers {
+        metrics
+    }
+}
+
+
+console.s3.<domain> {
+	reverse_proxy s3:9001
+}
+s3.<domain> {
+        reverse_proxy s3:9000
+}
+mlflow.<domain> {
+	basicauth / {
+		admin <hashed password>
+	}
+	reverse_proxy mlflow_server:5000	
+}
+zenml.<domain> {
+	reverse_proxy zenml_server:8080
+}
+grafana.<domain> {
+	reverse_proxy grafana:3000
+}
+
+prometheus.<domain> {
+        reverse_proxy prometheus:9090
+}
+

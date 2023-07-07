@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: yatai.${DOMAIN}
+  namespace: yatai
+spec:
+  secretName: yatai.${DOMAIN}
+  issuerRef:
+    name: wildcard-yatai
+    kind: Issuer
+    group: cert-manager.io
+  commonName: "*.yatai.${DOMAIN}
+  dnsNames:
+    - "yatai.${DOMAIN}
+    - "*.yatai.${DOMAIN}
