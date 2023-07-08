@@ -4,17 +4,41 @@ from tensorflow.keras import Sequential
 from zenml import step
 from tensorflow.keras.layers import Flatten
 from keras.layers.core import Dense
-from steps.data_loader import TensorFlowDatasetMaterializer
-
+from tensorflow.keras.preprocessing import image_dataset_from_directory
+from tensorflow.keras.optimizers import Adam
+from zenml.integrations.tensorflow.materializers.keras_materializer import KerasMaterializer
 """
 Train a modified ResNet50 model.
 """
-@step(enable_cache=False, output_materializers=TensorFlowDatasetMaterializer)
-def resnet_trainer(
-    train_ds: tf.data.Dataset,
-    valid_ds: tf.data.Dataset,
-    epochs: int
-) -> Sequential:
+@step(output_materializers=KerasMaterializer)
+def resnet_trainer(epochs: int, path: str, batch_size:int
+) -> tf.keras.Model:
+    logging.info("Loading train/valid/additional data")
+    train_ds = image_dataset_from_directory(
+        directory = path+"/train",
+        seed = 1324,
+        label_mode = 'categorical',
+        image_size = (350, 350),
+        batch_size=batch_size
+    )  
+    valid_ds = image_dataset_from_directory(
+        directory = path+"/valid",
+        seed = 1324,
+        label_mode = 'categorical',
+        image_size = (350, 350),
+        batch_size=batch_size
+    )
+    additional_ds = image_dataset_from_directory(
+        directory = path+"/additional",
+        seed = 1324,
+        label_mode = 'categorical',
+        image_size = (350, 350),
+        batch_size=batch_size
+    )
+    logging.info("Splitt additional data")
+    train_ds = train_ds.concatenate(additional_ds.take(int(len(additional_ds)*0.6)))
+    valid_ds = valid_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6))
+                                     .take(int(len(additional_ds)*0.2)))
     model = Sequential()
 
     # import pretrained model
