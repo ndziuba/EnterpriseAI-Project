@@ -3,7 +3,7 @@ import L from 'leaflet';
 
 const MapIcon = () => {
   useEffect(() => {
-        // @ts-ignore
+        // @ts-expect-error
     delete L.Icon.Default.prototype._getIconUrl;
 
     L.Icon.Default.mergeOptions({
