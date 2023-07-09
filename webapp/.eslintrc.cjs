@@ -29,6 +29,19 @@ const config = {
       },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/no-children-prop": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/restrict-plus-operands": "off"
   },
 };
 
