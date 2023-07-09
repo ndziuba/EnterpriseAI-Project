@@ -14,6 +14,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@t3-oss/env-nextjs": "^0.3.1",
+    "@types/react-leaflet": "^3.0.0",
     "formik": "^2.4.2",
     "framer-motion": "^10.12.18",
     "leaflet": "^1.9.4",
