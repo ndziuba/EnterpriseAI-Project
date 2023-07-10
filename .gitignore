@@ -1,1 +1,5 @@
 /data
+/notebooks/HPTuningTest/models
+/notebooks/model_experiments/models
+/pipelines/__pycache__
+/steps/__pycache__
