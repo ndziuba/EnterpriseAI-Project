@@ -30,6 +30,8 @@ def resnet_trainer(epochs: int, path: str, batch_size:int
         image_size = (350, 350),
         batch_size=batch_size
     )
+
+    """
     additional_ds = image_dataset_from_directory(
         directory = path+"/additional",
         seed = 1324,
@@ -41,6 +43,7 @@ def resnet_trainer(epochs: int, path: str, batch_size:int
     train_ds = train_ds.concatenate(additional_ds.take(int(len(additional_ds)*0.6)))
     valid_ds = valid_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6))
                                      .take(int(len(additional_ds)*0.2)))
+    """
     model = Sequential()
 
     # import pretrained model

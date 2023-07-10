@@ -22,7 +22,7 @@ def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 3
         image_size = (350, 350),
         batch_size=32
     )
-    
+    """
     additional_ds = image_dataset_from_directory(
         directory = "data/additional",
         seed = 1324,
@@ -30,8 +30,9 @@ def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 3
         image_size = (350, 350),
         batch_size=32
     )
+    """
     test_acc = model.evaluate(test_ds)
-    additional_acc = model.evaluate(additional_ds.skip(int(len(additional_ds)*0.8)))
+    #additional_acc = model.evaluate(additional_ds.skip(int(len(additional_ds)*0.8)))
     print(f"Test accuracy: {test_acc} Additional accuracy: {additional_acc}")
     logging.info("Evaluator step finished")
     return test_acc[1], additional_acc[1]
