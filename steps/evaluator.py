@@ -7,7 +7,8 @@ from tensorflow.keras.preprocessing import image_dataset_from_directory
 """
 Validate the trained model.
 """
-@step(enable_cache=False) 
+
+@step(enable_cache=False, experiment_tracker='mlflow_experiment_tracker') 
 def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 32) -> Output(
     test_acc=float,
     additional_acc=float):
