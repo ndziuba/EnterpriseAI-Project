@@ -2,7 +2,7 @@
 /.dvc/tmp
 /.dvc/cache
 /data
-/notebooks/HPTuningTest/models
+/notebooks/hp_tuning_test/models
 /notebooks/model_experiments/models
 /pipelines/__pycache__
 /steps/__pycache__
