@@ -19,10 +19,13 @@ services:
 
   zenml:
     container_name: zenml_server
-    image: zenmldocker/zenml-server:0.40.3
+    image: zenmldocker/zenml-server:0.41.0
+    volumes:
+      - "./zenml:/zenml"
     environment:
-      - ZENML_DEFAULT_USER_NAME=${ZENML_USER}
-      - ZENML_DEFAULT_USER_PASSWORD=${ZENML_PW}
+      - ZENML_DEFAULT_USER_NAME=admin
+      - ZENML_DEFAULT_USER_PASSWORD=enterpriseai
+      - ZENML_STORE_URL=sqlite:////zenml/zenml.db
     restart: on-failure
 
   s3:
