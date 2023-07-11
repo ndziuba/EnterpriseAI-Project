@@ -5,8 +5,8 @@
     "targets": [
         {
             "type": "stable",
-            "bento_repository": "iris_classifier",
-            "bento": "wbv2kla24snskasc",
+            "bento_repository": "wf_classifier",
+            "bento": "${BENTOTAG}",
             "config": {
                 "hpa_conf": {
                 }
