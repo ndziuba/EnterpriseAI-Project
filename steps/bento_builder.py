@@ -7,14 +7,15 @@ MODEL_NAME = "wf_model"
 # Call the step with the parameters
 bento_builder = bento_builder_step.with_options(
     parameters=dict(
-        model_name=MODEL_NAME, 
+        model_name=MODEL_NAME,
         model_type="tensorflow", 
         service="service.py:svc",  # Path to the service file within zenml repo
         labels={  # Labels to be added to the bento bundle
             "framework": "tensorflow",
             "dataset": "base_data",
-            "zenml_version": "0.40.3",
+            "zenml_version": "0.41",
         },
         exclude=["data", "notebooks", ".dvc", "mlruns"],  # Exclude files from the bento bundle
+        # Python package requirements of the model
     )
 )

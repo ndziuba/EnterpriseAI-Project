@@ -9,9 +9,9 @@ import tensorflow as tf
 from PIL import Image as PILimage
 from io import BytesIO
 
-runner = bentoml.tensorflow.get("tf_resnet_wildfire").to_runner()
+runner = bentoml.tensorflow.get("wf_model:").to_runner()
 
-svc = bentoml.Service(name="wildfire", runners=[runner])
+svc = bentoml.Service(name="wf_service", runners=[runner])
 
 
 output_spec = NumpyNdarray()
