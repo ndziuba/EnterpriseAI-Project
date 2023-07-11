@@ -63,7 +63,7 @@ def resnet_trainer(epochs: int, path: str, batch_size:int
 
     # add additional layers to model
     model.add(Flatten())
-    model.add(Dense(512, tf.nn.relu))
+    model.add(Dense(256, tf.nn.relu))
     model.add(Dense(2, tf.nn.softmax))
     
     # train model
