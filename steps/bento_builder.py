@@ -17,7 +17,7 @@ bento_builder = bento_builder_step.with_options(
         },
         exclude=["data", "notebooks", ".dvc", "mlruns"],  # Exclude files from the bento bundle
         python={
-            "packages": ["zenml", "requests", "tensorflow", "PIL", "io", "numpy"],
+            "packages": ["zenml", "requests", "tensorflow", "PIL", "io"],
         }  # Python package requirements of the model
     )
 )

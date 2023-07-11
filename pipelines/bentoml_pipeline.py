@@ -21,5 +21,5 @@ def bentoml_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5):
     bento = bento_builder.bento_builder(model=model)
 
 
-#os.popen("bentoml cloud login --api-token ${APITOKEN} --endpoint https://yatai.k8s.eai.dziubalabs.de/")
-#os.popen("bentoml push  wildfire:latest")
+os.popen("bentoml cloud login --api-token ${APITOKEN} --endpoint https://yatai.k8s.eai.dziubalabs.de/")
+os.popen("bentoml push  wf_service:latest")

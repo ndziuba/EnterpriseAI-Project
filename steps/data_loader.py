@@ -16,7 +16,7 @@ def data_loader(path: str='data', daydelta: int=3) -> int:
     canada_wilfires[' startdate'] = pd.to_datetime(canada_wilfires[' startdate'])
     relevant = canada_wilfires[canada_wilfires[' startdate']> cut_date]
     url = 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/{},{},15,0/350x350'
-    access_token = 'pk.eyJ1IjoibTNuZGVsIiwiYSI6ImNsajV5a2syMjAxOW8zam9ibXp4dGFkNmQifQ.PA3LPn0Ihn_xJ-tOnEUsWg'
+    access_token = '{ACCESSTOKEN}'
     ending = '&attribution=false&logo=false'
     count = 0
     for index, row in relevant.iterrows():
