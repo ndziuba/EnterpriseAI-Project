@@ -1,7 +1,7 @@
 #!/bin/bash
 # Variables
 VERSION=$(python get_bento_version.py)
-OUTPUT=$(bentoml deployment get --context default --kube-namespace yatai prod)
+OUTPUT=$(bentoml deployment get --context default --kube-namespace yatai staging)
 CURRENT_VERSION=$(echo "$OUTPUT" | grep -oP "'version': '\K[^']+")
 CONFIG=$(cat << EOF
 {
