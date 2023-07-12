@@ -21,6 +21,7 @@ def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 3
         seed = 1324,
         label_mode = 'categorical',
         image_size = (350, 350),
+        rescale=1./255,
         batch_size=32
     )
     """
@@ -29,6 +30,7 @@ def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 3
         seed = 1324,
         label_mode = 'categorical',
         image_size = (350, 350),
+        rescale=1./255,
         batch_size=32
     )
     """

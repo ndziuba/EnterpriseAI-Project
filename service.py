@@ -22,7 +22,8 @@ async def predict(input: NumpyNdarray(dtype="float32")) -> NumpyNdarray():
     ending = '&attribution=false&logo=false'
     response = rq.get(url.format(input[0],input[1]) + '?access_token=' + access_token + ending)
     img1= PILimage.open(BytesIO(response.content))
-    img_array = tf.keras.utils.img_to_array(img1)
-    img_batch = tf.expand_dims(img_array, 0)
+    img_tensor  = tf.keras.utils.img_to_array(img1)
+    img_tensor  = img_tensor  / 255.0
+    img_batch = tf.expand_dims(img_tensor , 0)
     results = runner.predict.run(img_batch)
     return results
