@@ -1,8 +1,9 @@
 #!/bin/bash
 # Variables
+export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
 VERSION=$(python get_bento_version.py)
 OUTPUT=$(bentoml deployment get --context default --kube-namespace yatai staging)
-CURRENT_VERSION=$(echo "$OUTPUT" | grep -oP "'version': '\K[^']+")
+CURRENT_VERSION=$(echo "$OUTPUT" |  grep -oP "version='.*?'" | cut -d "'" -f 2 | head -n 1)
 CONFIG=$(cat << EOF
 {
     "cluster_name": "default",
@@ -31,6 +32,10 @@ if [ "$VERSION" != "$CURRENT_VERSION" ]; then
     echo $UPDATED_CONFIG > deployment.json
     # Update the deployment
     bentoml deployment update --file deployment.json
+
+    # Log the update
+    logger -p info "BentoML staging deployment updated to version $VERSION from $CURRENT_VERSION"
 else
-    echo "The current version is the same as the new version."
+    # Log the non-update
+    logger -p info "BentoML staging deployment not updated. Current version is the same as new version."
 fi
