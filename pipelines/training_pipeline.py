@@ -27,7 +27,7 @@ def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 1):
     #current_eval = evaluator.model_evaluator(current_model)
     decision = trigger_decision.deployment_trigger(model_eval, 0.9)
 
-    if(decision):
+    if(decision==True):
         print('test')
         bento_builder.bento_builder(model=model)
         os.popen("bentoml cloud login --api-token ${APITOKEN} --endpoint https://yatai.k8s.eai.dziubalabs.de/")

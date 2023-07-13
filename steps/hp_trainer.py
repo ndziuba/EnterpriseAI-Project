@@ -11,7 +11,7 @@ import keras_tuner as kt
 
 def build_model(hp):
     # initialize model
-    model = tf.Sequential()
+    model = tf.keras.Sequential()
 
     # import pretrained model
     resnet_model = tf.keras.applications.ResNet50(
@@ -96,13 +96,13 @@ def resnet_hp_trainer(epochs: int, path: str, batch_size:int
     
     
     tuner = kt.RandomSearch(
-    build_model,
-    objective='val_accuracy',
-    seed=1234,
-    overwrite=True,
-    max_trials=5)
+        build_model,
+        objective='val_accuracy',
+        seed=1234,
+        overwrite=True,
+        max_trials=20)
     
-    tuner.search(train_ds, epochs=1, validation_data=(valid_ds))
+    tuner.search(train_ds, epochs=5, validation_data=(valid_ds))
 
     model = tuner.get_best_models()[0]
     mlflow.tensorflow.autolog()

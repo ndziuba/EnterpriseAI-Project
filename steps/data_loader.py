@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 from PIL import Image
-from io import BytesIO
+import io
 import datetime 
 import logging
 from zenml import step
@@ -18,13 +18,13 @@ def data_loader(path: str='data', daydelta: int=3) -> int:
     canada_wilfires[' startdate'] = pd.to_datetime(canada_wilfires[' startdate'])
     relevant = canada_wilfires[canada_wilfires[' startdate']> cut_date]
     url = 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/{},{},15,0/350x350'
-    access_token = '{ACCESSTOKEN}'
+    access_token = 'pk.eyJ1IjoidGltbGFjaG5lciIsImEiOiJjbGp5MGE0MmcwMGFrM3FsbGFxd2FwMmJvIn0.nP8b9q2owgwoCStcCnGL7Q'
     ending = '&attribution=false&logo=false'
     count = 0
     for index, row in relevant.iterrows():
         count += 1
         response = requests.get(url.format(row[' lon'],row[' lat']) + '?access_token=' + access_token + ending)
-        img = Image.open(BytesIO(response.content))
+        img = Image.open(io.BytesIO(response.content))
         img.save(f"data/additional/wildfire/{row[' lon']},{row[' lat']}.jpg")
     logging.info(count)
     return count
