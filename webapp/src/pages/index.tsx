@@ -104,11 +104,11 @@ const Home: NextPage = () => {
   
       // Update API response state with new prediction
       let wildfire = predictionResponse[0][0] > 0.5 ? false : true;
-      let percentage = wildfire == false ? predictionResponse[0][0] * 100 : (predictionResponse[0][1] * 100);
+      let percentage =  wildfire == false ?  (predictionResponse[0][0] * 100).toFixed(2) : (predictionResponse[0][1] * 100).toFixed(2);
 
       setAPIResponse({
         success: wildfire,
-        percentage: percentage,
+        percentage: +percentage,
         message: wildfire ? 'Potential Wildfire' : 'No Potential Wildfire',
         image: URL.createObjectURL(imageBlob),
       });
@@ -180,11 +180,11 @@ const Home: NextPage = () => {
   
       // Update API response state with new prediction
       let wildfire = predictionResponse[0][0] > 0.5 ? false : true;
-      let percentage = wildfire == false ? predictionResponse[0][0] * 100 : (predictionResponse[0][1] * 100);
+      let percentage = wildfire == false ? (predictionResponse[0][0] * 100).toFixed(2) : (predictionResponse[0][1] * 100).toFixed(2);
  
       setAPIResponse({
         success: wildfire,
-        percentage: percentage,
+        percentage: +percentage,
         message: wildfire ? 'Potential Wildfire' : 'No Potential Wildfire',
         image: URL.createObjectURL(imageBlob),
       });
