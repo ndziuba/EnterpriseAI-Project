@@ -4,7 +4,7 @@ from zenml.steps import step
 import json
 #TODO add discord webhook
 DISCORD_URL = (
-    
+    'https://discord.com/api/webhooks/1128669713304662076/BE0-0j4d_q3-nkd5U-DFeouHzfmE9fxXgePJd_L8IDCK3Dxsw3BJlVPNPTWWjYBkfGub'
 )
 
 
