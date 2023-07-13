@@ -12,7 +12,7 @@ import mlflow
 """
 Train a modified ResNet50 model.
 """
-@step(output_materializers=KerasMaterializer, experiment_tracker='mlflow_experiment_tracker') 
+@step(output_materializers=KerasMaterializer, experiment_tracker='mlflow_experiment_tracker', enable_cache=True) 
 def resnet_trainer(epochs: int, path: str, batch_size:int
 ) -> tf.keras.Model:
     logging.info("Loading train/valid/additional data")
@@ -21,7 +21,7 @@ def resnet_trainer(epochs: int, path: str, batch_size:int
         seed = 1324,
         label_mode = 'categorical',
         image_size = (350, 350),
-        rescale=1./255,
+        #rescale=1./255,
         batch_size=batch_size
     )  
     valid_ds = image_dataset_from_directory(
@@ -29,7 +29,7 @@ def resnet_trainer(epochs: int, path: str, batch_size:int
         seed = 1324,
         label_mode = 'categorical',
         image_size = (350, 350),
-        rescale=1./255,
+        #rescale=1./255,
         batch_size=batch_size
     )
 

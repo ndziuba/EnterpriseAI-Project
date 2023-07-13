@@ -1,29 +1,20 @@
 import bentoml
-from typing import Any
-from bentoml.io import Image
-import numpy as np
-from bentoml.io import Multipart
 from bentoml.io import NumpyNdarray
-import requests as rq
+from bentoml.io import Image
 import tensorflow as tf
-from PIL import Image as PILimage
-from io import BytesIO
+from PIL import Image as PILImage
+from numpy.typing import NDArray
+from typing import Any
 
-runner = bentoml.tensorflow.get("wf_model:").to_runner()
+
+runner = bentoml.tensorflow.get("wf_model:latest").to_runner()
 
 svc = bentoml.Service(name="wf_service", runners=[runner])
 
-
-output_spec = NumpyNdarray()
-@svc.api(input=NumpyNdarray(dtype="float32"), output=NumpyNdarray())
-async def predict(input: NumpyNdarray(dtype="float32")) -> NumpyNdarray():
-    url = 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/{},{},15,0/350x350'
-    access_token = 'pk.eyJ1IjoidGltbGFjaG5lciIsImEiOiJjbGp5MGE0MmcwMGFrM3FsbGFxd2FwMmJvIn0.nP8b9q2owgwoCStcCnGL7Q'
-    ending = '&attribution=false&logo=false'
-    response = rq.get(url.format(input[0],input[1]) + '?access_token=' + access_token + ending)
-    img1= PILimage.open(BytesIO(response.content))
-    img_tensor  = tf.keras.utils.img_to_array(img1)
-    img_tensor  = img_tensor  / 255.0
+@svc.api(input=Image(), output=NumpyNdarray())
+async def predict_image(f: PILImage) -> NDArray[Any]:
+    img_tensor  = tf.keras.utils.img_to_array(f)
+    #img_tensor  = img_tensor  / 255.0
     img_batch = tf.expand_dims(img_tensor , 0)
-    results = runner.predict.run(img_batch)
-    return results
+    #results = runner.predict.run(img_batch)
+    return await runner.async_run(img_batch)

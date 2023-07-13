@@ -1,0 +1,29 @@
+import bentoml
+from bentoml.io import NumpyNdarray
+from bentoml.io import Image
+import tensorflow as tf
+from PIL import Image as PILImage
+from numpy.typing import NDArray
+from typing import Any
+import requests as rq
+import io
+
+runner = bentoml.tensorflow.get("wf_model:latest").to_runner()
+
+svc = bentoml.Service(name="wf_service", runners=[runner])
+
+@svc.api(input=NumpyNdarray(), output=NumpyNdarray())
+async def predict_image(input: NDArray) -> NDArray[Any]:
+    # URL string building
+    url = 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/' + input[0] + ","+ input[2] + ",15,0/350x350?access_token=pk.eyJ1IjoidGltbGFjaG5lciIsImEiOiJjbGp5MGE0MmcwMGFrM3FsbGFxd2FwMmJvIn0.nP8b9q2owgwoCStcCnGL7Q&attribution=false&logo=false"
+
+    # api request
+    response = rq.get(url)
+    
+    # format img
+    img1= PILImage.open(io.BytesIO(response.content))
+    img_tensor  = tf.keras.utils.img_to_array(img1)
+    #img_tensor  = img_tensor  / 255.0
+    img_batch = tf.expand_dims(img_tensor , 0)
+
+    return await runner.async_run(img_batch)
