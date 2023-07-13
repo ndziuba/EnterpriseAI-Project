@@ -139,11 +139,7 @@ const Home: NextPage = () => {
     const formData = new FormData();
     formData.append('image', blob);
   
-    const response = await axios.post('https://predict.yatai.k8s.eai.dziubalabs.de/predict_image', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axios.post('https://predict.yatai.k8s.eai.dziubalabs.de/predict_image', formData);
   
     if (!response.data) {
       throw new Error('API response error');
