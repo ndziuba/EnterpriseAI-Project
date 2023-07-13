@@ -10,7 +10,7 @@ DISCORD_URL = (
 
 @step(enable_cache=False)
 def discord_alert(
-    update: bool,
+    update: bool
 ) -> bool:
     """Send a message to the discord channel to report model status.
 

@@ -3,6 +3,8 @@ import requests
 from PIL import Image
 from io import BytesIO
 import datetime 
+import logging
+from zenml import step
 """
 Import the data using tf.image_dataset_from_directory.
 """
@@ -24,6 +26,7 @@ def data_loader(path: str='data', daydelta: int=3) -> int:
         response = requests.get(url.format(row[' lon'],row[' lat']) + '?access_token=' + access_token + ending)
         img = Image.open(BytesIO(response.content))
         img.save(f"data/additional/wildfire/{row[' lon']},{row[' lat']}.jpg")
+    logging.info(count)
     return count
 
 

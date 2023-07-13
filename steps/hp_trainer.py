@@ -102,6 +102,8 @@ def resnet_hp_trainer(epochs: int, path: str, batch_size:int
     overwrite=True,
     max_trials=5)
     
+    tuner.search(train_ds, epochs=1, validation_data=(valid_ds))
+
     model = tuner.get_best_models()[0]
     mlflow.tensorflow.autolog()
     model.fit(train_ds, validation_data=valid_ds, epochs=epochs)
