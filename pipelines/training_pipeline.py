@@ -28,10 +28,10 @@ def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5, 
 
     bento_builder.bento_builder(model=trained_model)
 
-    #test_acc_current, test_acc_production = evaluator.model_evaluator(trained_model)
+    test_acc_current, test_acc_production = evaluator.model_evaluator(trained_model)
 
-    #decision = trigger_decision.deployment_trigger(test_acc_current, test_acc_production)    
+    decision = trigger_decision.deployment_trigger(test_acc_current, test_acc_production)    
     
-    #deployer.deployer(trained_model, decision)
+    deployer.deployer(trained_model, decision)
     
-    #discord_bot.discord_alert(decision, test_acc_current)
+    discord_bot.discord_alert(decision, test_acc_current)
