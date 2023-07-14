@@ -9,3 +9,4 @@
 /__pycache__
 /models/
 /models/hp_tuning
+/mlruns
