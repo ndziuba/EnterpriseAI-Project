@@ -10,7 +10,7 @@ import numpy as np
 
 runner = bentoml.tensorflow.get("wf_model:latest").to_runner()
 
-svc = bentoml.Service(name="wf_serviceTEST", runners=[runner])
+svc = bentoml.Service(name="wf_service", runners=[runner])
 
 model_version = bentoml.tensorflow.get("wf_model:latest").__getattribute__('tag').version
 
