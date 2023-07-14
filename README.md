@@ -8,8 +8,8 @@ Essential steps
   - [ ] Perform feature engineering
   - [X] Train a ML Model of your choice
   - [ ] (TODO m3ndel) Evaluate the model using at least one benchmark (see lecture 6)
-  - [ ] Put the model in production on a server
-  - [ ] (TODO Nicholas) Create an app where users can query predictions from the model
+  - [x] Put the model in production on a server
+  - [x] Create an app where users can query predictions from the model
   - [ ] Use the data from your test set to send prediction requests to your model
   - [ ] Track all your experiments and code versions in your team (and describe how you did this in your project documentation)
 
