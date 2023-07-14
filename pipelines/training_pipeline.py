@@ -1,35 +1,27 @@
 from zenml import pipeline
-import bentoml
-import os
-#from zenml.config import DockerSettings
-from zenml.integrations.constants import TENSORFLOW
 from steps import (
+    discord_bot,
     evaluator,
     hp_trainer,
     data_loader,
-    discord_bot,
     trigger_decision,
-    bento_builder
+    bento_builder,
+    deployer
 )
-
-
-#docker_settings = DockerSettings(required_integrations=[TENSORFLOW])
-#@pipeline(enable_cache=False, settings={"docker": docker_settings})
 
 @pipeline(enable_cache=False)
 def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 1):
-    """Train, evaluate, and deploy a model."""
+    """Main pipeline to train, evaluate, and deploy a model.
+
+    Args:
+        path (str): Path to the directory containing the training data.
+        batch_size (int): Batch size for training.
+        epochs (int): Number of epochs for training.
+    """
     new_count = data_loader.data_loader()
     model = hp_trainer.resnet_hp_trainer(path=path, batch_size=batch_size, epochs = epochs)
-    model_eval = evaluator.model_evaluator(model)
-
-    #current_model = bentoml.tensorflow.get("wf_model:latest")
-    #current_eval = evaluator.model_evaluator(current_model)
-    decision = trigger_decision.deployment_trigger(model_eval, 0.9)
-
-    if(decision==True):
-        print('test')
-        bento_builder.bento_builder(model=model)
-        os.popen("bentoml cloud login --api-token ${APITOKEN} --endpoint https://yatai.k8s.eai.dziubalabs.de/")
-        os.popen("bentoml push wf_service:latest")
-    #discord_bot.discord_alert(decision)
+    test_acc_current, test_acc_production = evaluator.model_evaluator(model)
+    decision = trigger_decision.deployment_trigger(test_acc_current, test_acc_production)    
+    bento_builder.bento_builder(model=model)
+    deployer.deployer(model, decision)
+    discord_bot.discord_alert(decision)
