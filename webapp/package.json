@@ -20,6 +20,7 @@
     "form-data": "^4.0.0",
     "formik": "^2.4.2",
     "framer-motion": "^10.12.18",
+    "into-stream": "^8.0.0",
     "leaflet": "^1.9.4",
     "next": "^13.4.9",
     "node-fetch": "^3.3.1",

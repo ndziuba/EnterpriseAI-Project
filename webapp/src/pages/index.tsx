@@ -75,78 +75,35 @@ const Home: NextPage = () => {
   const handleSubmit = async (values: Values) => {
     setIsLoading(true);
     setError(null);
+  
     try {
-      console.log(values);
-      setAPIResponse(apiResponse);
-  
-      setLastSubmissions(prev => [values, ...prev.slice(0, 2)]);
-  
-      // Fetch satellite image
-      let imageBlob;
-      try {
-        imageBlob = await fetchSatelliteImage(values.lat, values.long);
-      } catch (imageFetchError) {
-        throw new Error('Failed to fetch image');
-      }
-  
-      // Send image to prediction API
-      let predictionResponse;
-      try {
-        predictionResponse = await sendToPredictAPI(imageBlob);
-      } catch (predictionAPIError) {
-        // If API gives a 404 error, retry once
-        if (axios.isAxiosError(predictionAPIError) && predictionAPIError.response?.status === 404) {
-          predictionResponse = await sendToPredictAPI(imageBlob);
-        } else {
-          throw new Error('Failed to get prediction');
-        }
-      }
-  
-      // Update API response state with new prediction
-      let wildfire = predictionResponse[0][0] > 0.5 ? false : true;
-      let percentage =  wildfire == false ?  (predictionResponse[0][0] * 100).toFixed(2) : (predictionResponse[0][1] * 100).toFixed(2);
-
-      setAPIResponse({
-        success: wildfire,
-        percentage: +percentage,
-        message: wildfire ? 'Potential Wildfire' : 'No Potential Wildfire',
-        image: URL.createObjectURL(imageBlob),
+      const response = await fetch('/api/handlePrediction', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
       });
   
+      if (!response.ok) {
+        throw new Error('Failed to submit coordinates');
+      }
+  
+      const apiResponse = await response.json();
+  
+      setAPIResponse(apiResponse);
+      setLastSubmissions(prev => [values, ...prev.slice(0, 2)]);
+      
     } catch (e) {
-      setError('Failed to submit coordinates');
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('An unknown error occurred');
+      }
     } finally {
       setIsLoading(false);
     }
   };
   
-  async function fetchSatelliteImage(lat: number, long: number) {
-    let access_token = 'pk.eyJ1IjoidGltbGFjaG5lciIsImEiOiJjbGp5MGE0MmcwMGFrM3FsbGFxd2FwMmJvIn0.nP8b9q2owgwoCStcCnGL7Q';
-    const response = await fetch(
-      `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${long},${lat},15,0/350x350?access_token=${access_token}&attribution=false&logo=false`
-    );
-    console.log(response);
-  
-    if (!response.ok) {
-      throw new Error('Failed to fetch image');
-    }
-    
-    const blob = await response.blob();
-    return blob;
-  }
-  
-  async function sendToPredictAPI(blob: Blob) {
-    const formData = new FormData();
-    formData.append('image', blob);
-  
-    const response = await axios.post('https://predict.yatai.k8s.eai.dziubalabs.de/predict_image', formData);
-  
-    if (!response.data) {
-      throw new Error('API response error');
-    }
-  
-    return response.data;
-  }
+
 
 
   const handleResend = async (values: Values) => {
