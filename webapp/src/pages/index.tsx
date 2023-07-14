@@ -261,6 +261,7 @@ const Home: NextPage = () => {
                 </Stat>
                 <FeedbackComponent 
                 image={apiResponse.image}
+                feedback={null}
                 latitude={apiResponse.latitude}
                 longitude={apiResponse.longitude}
                 prediction={apiResponse.message}

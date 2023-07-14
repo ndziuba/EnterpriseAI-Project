@@ -8,7 +8,7 @@ interface Feedback {
   latitude: number;
   longitude: number;
   prediction: string;
-  feedback: boolean;
+  feedback: boolean | null;
   modelVersion: string;
 }
 
