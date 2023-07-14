@@ -45,13 +45,16 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
   // Update API response state with new prediction
   let wildfire = predictionResponse[0][0] > 0.5 ? false : true;
   let percentage =  wildfire == false ?  (predictionResponse[0][0] * 100).toFixed(2) : (predictionResponse[0][1] * 100).toFixed(2);
-
+  let modelVersion = predictionResponse[0][2];
   const base64Image = Buffer.from(imageResponse.data, 'binary').toString('base64');
-
+  console.log(`Wildfire: ${wildfire}, Percentage: ${percentage}, Model Version: ${modelVersion}, Latitude: ${lat}, Longitude: ${long}`);
   res.status(200).json({
     success: wildfire,
+    latitude: lat,
+    longitude: long,
     percentage: +percentage,
     message: wildfire ? 'Wildfire potential' : 'No Wildfire potential',
     image: `data:image/jpeg;base64,${base64Image}`,  // return as data URL
+    modelVersion: modelVersion,
   });
 }

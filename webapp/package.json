@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/next-js": "^2.1.4",
     "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
@@ -28,6 +29,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-leaflet": "^4.2.1",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
     "yup": "^1.2.0",
     "zod": "^3.21.4"
   },

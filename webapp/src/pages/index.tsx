@@ -23,13 +23,17 @@ import {
   ListItem,
   ListIcon,
   Box,
-  Badge
+  Badge,
+  VStack,
+  IconButton
 
 } from '@chakra-ui/react';
 import React, { useState, ChangeEvent } from 'react';
 import dynamic from 'next/dynamic';
-import { FaLocationArrow } from 'react-icons/fa';
-import axios from 'axios';
+import { FaLocationArrow, FaRegCommentAlt } from 'react-icons/fa';
+import FeedbackComponent from '../components/FeedbackComponent';
+import { useRouter } from 'next/router';
+
 
 
 interface Values {
@@ -38,10 +42,13 @@ interface Values {
 }
 
 interface APIResponse {
+  latitude: number;
+  longitude: number;
   success: boolean;
   message: string;
   percentage: number;
   image: string;
+  modelVersion: string;
 }
 
 const validationSchema = Yup.object({
@@ -51,6 +58,8 @@ const validationSchema = Yup.object({
 
 const Map = dynamic(() => import('~/components/Map'), { ssr: false });
 
+
+
 const Home: NextPage = () => {
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
@@ -58,6 +67,7 @@ const Home: NextPage = () => {
   const [apiResponse, setAPIResponse] = useState<APIResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
 
 
   const handleLatChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -111,40 +121,37 @@ const Home: NextPage = () => {
     setError(null);
     console.log('Resending: ' + values.lat + ' ' + values.long);
 
-      let imageBlob;
-      try {
-        imageBlob = await fetchSatelliteImage(values.lat, values.long);
-      } catch (imageFetchError) {
-        throw new Error('Failed to fetch image');
-      }
-  
-      // Send image to prediction API
-      let predictionResponse;
-      try {
-        predictionResponse = await sendToPredictAPI(imageBlob);
-      } catch (predictionAPIError) {
-        // If API gives a 404 error, retry once
-        if (axios.isAxiosError(predictionAPIError) && predictionAPIError.response?.status === 404) {
-          predictionResponse = await sendToPredictAPI(imageBlob);
-        } else {
-          throw new Error('Failed to get prediction');
-        }
-      }
-  
-      // Update API response state with new prediction
-      let wildfire = predictionResponse[0][0] > 0.5 ? false : true;
-      let percentage = wildfire == false ? (predictionResponse[0][0] * 100).toFixed(2) : (predictionResponse[0][1] * 100).toFixed(2);
- 
-      setAPIResponse({
-        success: wildfire,
-        percentage: +percentage,
-        message: wildfire ? 'Potential Wildfire' : 'No Potential Wildfire',
-        image: URL.createObjectURL(imageBlob),
+    try {
+      const response = await fetch('/api/handlePrediction', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
       });
   
-    };
+      if (!response.ok) {
+        throw new Error('Failed to submit coordinates');
+      }
+  
+      const apiResponse = await response.json();
+  
+      setAPIResponse(apiResponse);
+      
+    } catch (e) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const router = useRouter();
 
+  const handleFeedbackClick = () => {
+    router.push("/feedback");
+  }
 
   return (
     <ChakraProvider>
@@ -240,9 +247,9 @@ const Home: NextPage = () => {
             <Divider />
 
             {apiResponse && (
-
-              <Flex margin={2} gap={20} alignItems={'center'} justifyContent={'flex-start'}>
-                <Stat width={'max-content'}>
+              <Flex margin={2} gap={20} alignItems={'left'} justifyContent={'flex-start'}>
+                <VStack justifyContent={'center'}>
+                <Stat width={'max-content'} height={'max-content'} flexGrow={'0'}>
                   <StatLabel><Badge colorScheme='teal'>Prediction</Badge></StatLabel>
                   <StatNumber width={'max-content'}>{apiResponse.message}</StatNumber>
                   <StatHelpText>
@@ -252,6 +259,14 @@ const Home: NextPage = () => {
                     </Text> 
                   </StatHelpText>
                 </Stat>
+                <FeedbackComponent 
+                image={apiResponse.image}
+                latitude={apiResponse.latitude}
+                longitude={apiResponse.longitude}
+                prediction={apiResponse.message}
+                modelVersion={apiResponse.modelVersion}
+              />
+              </VStack>
                 <Box width={'max-content'}>
                   <Image maxWidth='400px' width={'100%'} objectFit={'contain'} src={apiResponse.image} alt="API response" />
                 </Box>
@@ -264,6 +279,14 @@ const Home: NextPage = () => {
           </Flex>
         </SimpleGrid>
       </Container>
+      <Box position="fixed" right="2rem" bottom="2rem">
+        <IconButton
+          colorScheme="teal"
+          aria-label="Send feedback"
+          icon={<FaRegCommentAlt />}
+          onClick={handleFeedbackClick}
+        />
+      </Box>
     </ChakraProvider>
 
   );
