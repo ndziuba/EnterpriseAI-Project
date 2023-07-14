@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { VStack, HStack, Alert, AlertIcon, Text, AlertDescription, Button } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
@@ -10,11 +10,12 @@ interface Feedback {
     prediction: string;
     feedback: boolean | null;
     modelVersion: string;
+    isSubmitted: boolean;
+    setIsSubmitted: (isSubmitted: boolean) => void;
 }
 
-const FeedbackComponent: React.FC<Feedback> = ({ image, latitude, longitude, prediction, modelVersion }) => {
+const FeedbackComponent: React.FC<Feedback> = ({ image, latitude, longitude, prediction, modelVersion, isSubmitted, setIsSubmitted }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleFeedback = async (isPositive: boolean) => {
         setIsLoading(true);
@@ -41,10 +42,9 @@ const FeedbackComponent: React.FC<Feedback> = ({ image, latitude, longitude, pre
                 <Alert
                     status='success'
                     variant='subtle'
-                    width='max-content'
                     >
                     <AlertIcon boxSize='20px' mr={2} />
-                    <AlertDescription maxWidth='sm'>
+                    <AlertDescription fontSize='sm'>
                         Feedback submitted!
                     </AlertDescription>
                 </Alert>

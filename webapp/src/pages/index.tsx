@@ -85,7 +85,6 @@ const Home: NextPage = () => {
   const handleSubmit = async (values: Values) => {
     setIsLoading(true);
     setError(null);
-  
     try {
       const response = await fetch('/api/handlePrediction', {
         method: 'POST',
@@ -110,11 +109,12 @@ const Home: NextPage = () => {
       }
     } finally {
       setIsLoading(false);
+      setIsSubmitted(false);
     }
   };
   
 
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleResend = async (values: Values) => {
     setIsLoading(true);
@@ -266,6 +266,8 @@ const Home: NextPage = () => {
                 longitude={apiResponse.longitude}
                 prediction={apiResponse.message}
                 modelVersion={apiResponse.modelVersion}
+                isSubmitted={isSubmitted}
+                setIsSubmitted={setIsSubmitted}
               />
               </VStack>
                 <Box width={'max-content'}>
@@ -294,4 +296,5 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
 
