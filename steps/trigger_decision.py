@@ -1,5 +1,5 @@
 from zenml import step
-
+import logging
 
 @step
 def deployment_trigger(
@@ -19,4 +19,9 @@ def deployment_trigger(
     Returns:
         True if the model is good enough to deploy, False otherwise.
     """
-    return accuracy > current_accuracy
+    decision = accuracy > current_accuracy
+    if decision:
+        logging.info(" New model will be deployed; Accuracy is better than current model")
+    else:
+        logging.info(" New model will NOT be deployed; Accuracy is worse than current model")
+    return decision

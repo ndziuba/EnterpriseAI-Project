@@ -1,9 +1,6 @@
 import tensorflow as tf
 import logging
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Flatten, Dense
 from tensorflow.keras.preprocessing import image_dataset_from_directory
-from tensorflow.keras.optimizers import Adam
 from zenml.integrations.tensorflow.materializers.keras_materializer import KerasMaterializer
 from zenml import step
 import mlflow

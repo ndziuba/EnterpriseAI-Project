@@ -3,7 +3,7 @@ import requests
 from zenml import step
 
 @step(enable_cache=False)
-def discord_alert(decision: bool, eval: float) -> str:
+def discord_alert(decision: bool, eval: float) -> int:
     """
     Send a message to the discord channel to report model status.
     """

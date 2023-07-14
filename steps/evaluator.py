@@ -1,4 +1,5 @@
 import tensorflow as tf
+from typing import Tuple
 import logging
 from zenml import step
 from zenml.steps import Output
@@ -48,10 +49,10 @@ def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 3
         tf.keras.layers.Rescaling(1./255)
     ])
     test_ds = test_ds.map(lambda x, y: (data_rescale(x), y))
-    #production_model = tf.keras.models.load_model('models/production')
+    production_model = tf.keras.models.load_model('models/production')
     # Evaluate the models on the test dataset
     test_acc_current = model.evaluate(test_ds)
-    #test_acc_production = production_model.evaluate(test_ds)
+    test_acc_production = production_model.evaluate(test_ds)
     logging.info("Evaluator step finished")
-    test_acc_production = [0, 0.5]
+    #test_acc_production = [0, 0.5]
     return test_acc_current[1], test_acc_production[1]

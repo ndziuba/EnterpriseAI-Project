@@ -7,5 +7,5 @@
 /pipelines/__pycache__
 /steps/__pycache__
 /__pycache__
-/models
+/models/
 /models/hp_tuning
