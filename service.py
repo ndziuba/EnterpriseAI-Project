@@ -17,4 +17,6 @@ async def predict_image(f: PILImage) -> NDArray[Any]:
     #img_tensor  = img_tensor  / 255.0
     img_batch = tf.expand_dims(img_tensor , 0)
     #results = runner.predict.run(img_batch)
-    return await runner.async_run(img_batch)
+    arr = runner.async_run(img_batch)
+    arr = arr.append(bentoml.tensorflow.get("wf_model:latest").__getattribute__('tag').version)
+    return await arr

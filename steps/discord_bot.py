@@ -3,14 +3,14 @@ import requests
 from zenml import step
 
 @step(enable_cache=False)
-def discord_alert(eval: float, current_eval: float) -> str:
+def discord_alert(decision: bool, eval: float) -> str:
     """
     Send a message to the discord channel to report model status.
     """
     url = 'https://discord.com/api/webhooks/1128669713304662076/BE0-0j4d_q3-nkd5U-DFeouHzfmE9fxXgePJd_L8IDCK3Dxsw3BJlVPNPTWWjYBkfGub'
-    update = eval > current_eval
+    
     data = {
-        "content": "Model updated with an eval accuracy of: " + str(eval) if update else "No performance increase achived, eval accuracy was:" + str(eval),
+        "content": "Model updated with an eval accuracy of: " + str(eval) if decision else "No performance increase achived, eval accuracy was:" + str(eval),
         "username": "Trainings Bot",
     }
     result = requests.post(url, json=data)
@@ -25,6 +25,6 @@ def discord_alert(eval: float, current_eval: float) -> str:
                 result.status_code
             )
         )
-    print("Model updated" if update else "No performance increase achived")
+    print("Model updated" if decision else "No performance increase achived")
     return result.status_code
 

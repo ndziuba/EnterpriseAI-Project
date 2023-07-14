@@ -24,4 +24,4 @@ def deployer(model: tf.keras.Model, decision: bool, path='data'):
         os.popen("bentoml cloud login --api-token ${APITOKEN} --endpoint https://yatai.k8s.eai.dziubalabs.de/")
         os.popen("bentoml push wf_service:latest")
         # save the current model in the specified path
-        model.save(os.path.join(path, 'models', 'current'))
+        model.save(os.path.join(path, 'models', 'production'))

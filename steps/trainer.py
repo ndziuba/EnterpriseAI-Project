@@ -5,10 +5,11 @@ from tensorflow.keras.layers import Flatten, Dense
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.optimizers import Adam
 from zenml.integrations.tensorflow.materializers.keras_materializer import KerasMaterializer
+from zenml import step
 import mlflow
 
 @step(output_materializers=KerasMaterializer, experiment_tracker='mlflow_experiment_tracker', enable_cache=True) 
-def resnet_trainer(epochs: int, path: str, batch_size:int) -> tf.keras.Model:
+def resnet_trainer(model: tf.keras.Model, epochs: int, path: str, batch_size:int) -> tf.keras.Model:
     """
     This function trains a ResNet50 model with modified top layers for a specific task.
     
@@ -38,26 +39,33 @@ def resnet_trainer(epochs: int, path: str, batch_size:int) -> tf.keras.Model:
         batch_size=batch_size
     )
 
+    additional_ds = image_dataset_from_directory(
+        directory = path+"/additional",
+        seed = 1324,
+        label_mode = 'categorical',
+        image_size = (350, 350),
+        batch_size=batch_size
+    )
+
+    # Concatenate a portion of the additional dataset to the test dataset
+    train_ds = train_ds.concatenate(additional_ds.take(int(len(additional_ds)*0.6)))
+    #train_ds = train_ds.shuffle(buffer_size=1000)
+
+    # Concatenate a portion of the additional dataset to the test dataset
+    valid_ds = valid_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6)).take(int(len(additional_ds)*0.2)))
+    #valid_ds = valid_ds.shuffle(buffer_size=1000)
+
+    # Apply resizing and rescaling transformations to the dataset
+    data_rescale = tf.keras.Sequential([
+        tf.keras.layers.Resizing(350, 350),
+        tf.keras.layers.Rescaling(1./255)
+    ])
+    train_ds = train_ds.map(lambda x, y: (data_rescale(x), y))
+    valid_ds = valid_ds.map(lambda x, y: (data_rescale(x), y))
+
     logging.info("Setting up the model architecture")
 
-    model = Sequential()
-    resnet_model = tf.keras.applications.ResNet50(
-        include_top=False,
-        input_shape=(350,350,3),
-        pooling='avg',
-        weights='imagenet'
-    )
-    for layer in resnet_model.layers:
-        layer.trainable = False
-
-    model.add(resnet_model)
-    model.add(Flatten())
-    model.add(Dense(256, activation=tf.nn.relu))
-    model.add(Dense(2, activation=tf.nn.softmax))
-
-    logging.info("Starting model training")
-
-    model.compile(optimizer=Adam(), loss='binary_crossentropy', metrics=['accuracy'])
+    
     mlflow.tensorflow.autolog()  # Ensure MLflow is tracking this model's training
     model.fit(train_ds, validation_data=valid_ds, epochs=epochs)
 
