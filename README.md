@@ -49,6 +49,7 @@ After that, the following tasks will be executed (detailed explanation of the in
         - steps/trigger_decision compares accuracy and decides if the new model is better
         - steps/deployer deploys model to yatai based on the trigger decision
         - steps/discord_bot posts alert that a new model has benn pushed 
+    - Yatai automatically updates pods to new version and builds containers
         
 ## Infrastructure
 This section provides an overview of the infrastructure of the project, all .example files are for demonstration and have to be stripped of the .example for production.
