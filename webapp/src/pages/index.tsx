@@ -158,9 +158,9 @@ const Home: NextPage = () => {
       <Container maxW={'6xl'} py={12}>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
           <Stack spacing={4}>
-            <Heading>Predict the Wildfire on the map.</Heading>
+            <Heading>Predict the Wildfire potential on the map.</Heading>
             <Text color={'gray.500'} fontSize={'lg'}>
-              You can predict the wildfire on the map by sending coordinates to our machine learning model.
+              You can predict the wildfire potential on the map by sending coordinates to our machine learning model.
             </Text>
 
             <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
