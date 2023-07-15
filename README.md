@@ -20,7 +20,7 @@ Our Workflow Stack consists of the following illustrated technologies and servic
   <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/d103d20a-62c2-4a51-889d-cd51ec325377">
 </p>
 
-## Folder structure:
+## Folder structure
 
     container/:  Includes all files to spin up the base infrastructure with Docker.
     data/:       All files regarding the data used in model training.
