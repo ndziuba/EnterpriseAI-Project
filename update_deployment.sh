@@ -36,12 +36,12 @@ CONFIG=$(cat << EOF
                     "wf_model": {
                         "resources": {
                             "requests": {
-                                "cpu": "200m",
+                                "cpu": "400m",
                                 "memory": "512Mi"
                             },
                             "limits": {
                                 "cpu": "500m",
-                                "memory": "900Mi"
+                                "memory": "1024Mi"
                             }
                         },
                         "hpa_conf": {
@@ -49,13 +49,13 @@ CONFIG=$(cat << EOF
                             "max_replicas": 2
                         },
                         "envs": [],
-                        "enable_ingress": true,
                         "enable_stealing_traffic_debug_mode": false,
                         "enable_debug_mode": false,
                         "enable_debug_pod_receive_production_traffic": false,
                         "bento_deployment_overrides": {}
                     }
-                }
+                },
+                "enable_ingress": true
             }
         }
     ],
