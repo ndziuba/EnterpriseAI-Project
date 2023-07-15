@@ -8,6 +8,18 @@ The data_loader step is a part of the training pipeline. It fetches wildfire dat
 
 The step returns the count of images saved, which is useful for understanding the volume of data added in each run.
 
+### hp_tuner step
+The hp_tuner step tunes the hyperparameters of the model, specifically the number of neuron in the hidden layer we added on top of the original ResNet50 model. First it loads the necessary data and concatenates the additional data we added to the original dataset with the train and validation datasets. After that the Keras tuner starts to build the model. Our model consists of the basic resnet50 model (all the weights of the layers of the pretrained model will be excluded from training), an additional Flatten layer, are Dense layer of variable size and a relu activation function (Rectifier Linear Unit) and at last an output layer for the two classes with a softmax activation function. After building the model, the tuner starts the hp search with the specified amount of epochs for the sizes 128, 256 and 512 of the hidden layer. After the completion of the search, the step returns the optimal model for the current data.
+
+### trainer step
+The trainer step further trains the optimal model returned in the hp_tuning step. At the beginning the necessary data for the step is loaded and again concatenatet with our own additional data. The trainer then fits the model for the additional specified amount of epochs
+
+### evaluator step
+The evaluator step loads the new model and the current production model and returns the model accuracy on the test dataset respectively.
+
+### bento_builder step
+The bento_builder step starts the building of the bento with the new model. It specifies, which data in the repository to exclude from building and which python packages to include in the final bento. Furthermore the corresponding service.py spcifies how the runner should work in production. We configured the bento to get an image as the input and return an array with the confidence of the corresponding class and the model version used to run the prediction.
+
 ### discord_alter step
 A simple alerting mechanism builds in the pipeline to notify us via our discord of updates. It follows the structure of (https://github.com/zenml-io/zenml-projects/blob/main/nba-pipeline/steps/discord_bot.py). The step takes the deployment decision and the test_evaluation accuracy and uses the discord webhook interface to send the message.
 
