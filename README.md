@@ -1,11 +1,19 @@
 # EnterpriseAI-Project
-With this project, we set up a mlflow pipeline to predict the potential of a wildfire on specific, user-given coordinates. 
+With this project we set up a mlflow pipeline to predict the potential of a wildfire on specific, user-given coordinats. 
 
-The project is based on [this](https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset) kaggle dataset. In this dataset, the creator added satellite images of coordinates in Canada, where there previously has been a wildfire or currently is a wildfire, based on another wildfire API. Mapbox doesn't allow the specification of when the pictures are taken and that's why we can't tell, if there is a wildfire currently ongoing in the image or not.
+The project is based on [this](https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset) kaggle dataset. In this dataset, the creator added satellite images of coordinates in canada, where there previously has been a wildfire or currently is a wildfire, based on another wildfire api. Mapbox doesn't allow the specification of when the pictures are taken and thats why we can't tell, if there is a wildfire currently ongoing in the image or not.
 
-We trained a customized ResNet50 model on the dataset and add our own data with the same procedure as in the original dataset, to allow an active flow of new data to the model and set up a [web-app](https://eai.dziubalabs.de/) for users to run the prediction.
+We trained a customized ResNet50 model on the dataset and added our own data with the same procedure as in the original dataset, to allow an active flow of new data to the model and set up a [web-app](https://eai.dziubalabs.de/) for users to run the prediction.
 
-In the following section, we lead you through a complete walkthrough of our pipeline from data to production-ready prediction web-app.
+The input images we used look like this:
+![-61 5607,50 52878](https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0)
+
+The ouput of the model is a classification to either wildfire potential or not with a corresponding confidence.
+
+In the following section we lead you through a complete walkthroug of our pipeline from data to production ready prediciton web-app.
+
+## Practical project walkthrough
+TBD
 
 Folder structure:
 
