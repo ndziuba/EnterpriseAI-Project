@@ -40,7 +40,7 @@ CONFIG=$(cat << EOF
                                 "memory": "512Mi"
                             },
                             "limits": {
-                                "cpu": "500m",
+                                "cpu": "800m",
                                 "memory": "1024Mi"
                             }
                         },
