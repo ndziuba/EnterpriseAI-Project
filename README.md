@@ -1,4 +1,6 @@
 # EnterpriseAI-Project
+![fire_785116](https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/f7cdcca1-74a6-4cdf-9bbc-b0eaa533849a)
+
 With this project we set up a mlops pipeline to predict the potential of a wildfire on specific, user-given coordinats. 
 
 The project is based on [this](https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset) kaggle dataset. In this dataset, the creator added satellite images of coordinates in canada, where there previously has been a wildfire or currently is a wildfire, based on another wildfire api. Mapbox doesn't allow the specification of when the pictures are taken and thats why we can't tell, if there is a wildfire currently ongoing in the image or not.
