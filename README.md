@@ -1,6 +1,26 @@
 # EnterpriseAI-Project
 ** WIP **
 
+## ZenML pipeline
+
+### data_loader step
+The data_loader step is a part of the training pipeline. It fetches wildfire data from the Canada Wildfire Service(https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv), filters it based on a specified timeframe (daydelta parameter), and retrieves satellite images of the wildfires from the Mapbox API. This step mimics the origin of the Kaggle dataset and creates additional training, valid and test data, enabling a continuous change in the model. 
+
+The step returns the count of images saved, which is useful for understanding the volume of data added in each run.
+
+### discord_alter step
+A simple alerting mechanism builds in the pipeline to notify us via our discord of updates. It follows the structure of (https://github.com/zenml-io/zenml-projects/blob/main/nba-pipeline/steps/discord_bot.py). The step takes the deployment decision and the test_evaluation accuracy and uses the discord webhook interface to send the message.
+
+### trigger_decision step
+Step comparing the accuracy of the newly trained model and the model currently in deployment and returns a bool.
+
+### Deployer step 
+Pushes the last build bento to Yatai, from where it gets deployed into our staging model. It further saves the model to compare its performance in the next iteration. 
+
+## Notebooks
+
+### enrich_data
+This notebook used MapBox and geoAPI to enrich the training data with no wildfire pictures from cities with similar geographical makeup as Canada. For each entry in a list of 128 Cities, the geo API is used to gather its coordinates. A random noise of ~ 5 km^2 is added for each coordinate, and the MapBox API is called to generate an image. This gets repeated 50 times per city to add 6400 additional samples to our data. We assume that the images depict cities and their surroundings. We can safely classify them as no wildfire.  
 # EnterpriseAI-Project
 Documentation:
 TODO:
