@@ -15,13 +15,13 @@ The input images of the models are images like shown below and the output is a c
 
 ## Folder structure:
 
-    container/:  Includes all files to spin up the base infrastructure.
-    data/:       All files regarding the data used in model training 
-    k8s/:        All files regarding the production and staging deployment.
-    k8s/config:  All files to configure the secrets, certificates and the ingress for yatai.
-    models/:     All generated models while executing pipeline
-    pipelines/:  Contains the pipelines used in the project
-    steps/:      All steps that are used in the mlops pipeline
+    container/:  Includes all files to spin up the base infrastructure with Docker.
+    data/:       All files regarding the data used in model training.
+    k8s/:        All files regarding the production and staging deployment in Kubernetes.
+    k8s/config:  All files to configure the secrets, certificates and the ingress for Yatai.
+    models/:     All generated models while executing pipeline.
+    pipelines/:  Contains the pipelines used in the project.
+    steps/:      All steps that are used in the mlops pipeline.
     webapp:      The Next.js React App as frontend for the model.
 
 
@@ -34,8 +34,6 @@ This section provides an overview of the infrastructure of the project, all .exa
 
 ### Serverstructure
 The project utilizes one server hosting different Docker containers and a Kubernetes Cluster, where the nodes are running on Digital Ocean. The server also provides CLI Access to the Cluster where Kubernetes can be configured.
-
-    Caddy: The reverse proxy for the server, the config can be found in containers/caddy/proxy/Caddyfile
 
 #### Docker Server
 In the folder container, a <code>container/docker-compose.yml.example</code> is provided setting the base infrastructure up for the project. After a <code>docker-compose up -d</code> the server provides the following services:
@@ -79,9 +77,12 @@ After the push Yatai does not build Images, it only builds them when a Bentofile
 But it also has no functionality of automatically putting a Bentofile into deployment after a push.
 
 To fix these issues and enable Continuous Delivery, the <code>update_deployment.sh</code> script utilizing <code>get_bento_version.py</code>
-extract the latest pushed Bentofile and deploy it into the staging deployment.
-Yatai then builds the Image and after this process finishes successfully the current staging model gets changed with a rolling release.
+extracts the latest pushed Bentofile and deploys it into the staging deployment.
+Yatai then builds the Image and after this process finishes successfully it does a rolling release, exchanging the current staging model.
 This can either be run manually or in our case automated with a Cronjob.
+
+Because Yatai does not provide a way to get the latest Bentofile push and the way mentioned in [this GitHub Issue](https://github.com/bentoml/BentoML/issues/2551) does not work anymore.
+The <code>get_bento_version.py</code> extracts this information from the Minio S3 Bucket.
 
 WIP
 
