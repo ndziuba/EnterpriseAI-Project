@@ -29,10 +29,10 @@ The input images of the models are images like shown below and the output is a c
 TBD
 
 
-## Infrastructur
+## Infrastructure
 This section provides an overview of the infrastructure of the project, all .example files are for demonstration and have to be stripped of the .example for production.
 
-### Serverstructur
+### Serverstructure
 The project utilizes one server hosting different Docker containers and a Kubernetes Cluster, where the nodes are running on Digital Ocean. The server also provides CLI Access to the Cluster where Kubernetes can be configured.
 
     Caddy: The reverse proxy for the server, the config can be found in containers/caddy/proxy/Caddyfile
