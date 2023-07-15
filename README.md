@@ -12,10 +12,7 @@ The input images of the models are images like shown below and the output is a c
 
 
 
-## Practical project walkthrough
-TBD
-
-Folder structure:
+## Folder structure:
 
     container/:  Includes all files to spin up the base infrastructure.
     data/:       All files regarding the data used in model training 
