@@ -100,6 +100,9 @@ This feedback containing an id, the image as Base64, coordinates, prediction, fe
   <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/6859689f-d14c-4f4c-9dac-45bf462f52dc">
 </p>
 
+To run the app on a server a Dockerfile was configured to build a container, with for example <code>docker build</code>.
+To then deploy it either <code>docker run</code> or the provided <code>docker-compose.yml</code> with <code>docker-compose up -d</code> can be used.
+
 
 
 
