@@ -49,6 +49,7 @@ CONFIG=$(cat << EOF
                             "max_replicas": 2
                         },
                         "envs": [],
+                        "enable_ingress": true,
                         "enable_stealing_traffic_debug_mode": false,
                         "enable_debug_mode": false,
                         "enable_debug_pod_receive_production_traffic": false,
