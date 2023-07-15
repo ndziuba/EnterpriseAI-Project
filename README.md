@@ -40,6 +40,7 @@ In the folder container, a <code>container/docker-compose.yml.example</code> is 
 
     Caddy:       The reverse proxy for the server, the config can be found in containers/caddy/proxy/Caddyfile
     Zenml:       A Zenml 0.41 Server gets provided saving its data in a SQlite Database.
+    Mlflow:      A Mlflow Server that gets build from a Dockerfile and secured by HTTP Basic Auth.
     Minio:       A S3 compatible service as object storage for Zenml and MLflow, also saving the DVC data.
     Prometheus:  To monitor the server Prometheus, including cadvisor and node-exporter, are set up.
     Grafana:     To show dashboards of the gathered data from Prometheus.
@@ -69,7 +70,7 @@ The Cluster provides the following services:
     Grafana:          To provide the dashboards for the Kubernetes environment.
 
 
-### Continuous Integration and Deployment
+### Continuous Integration and Deployment with Yatai
 Yatai is the cloud deployment infrastructure for BentoML and represents our CI/CD pipeline. 
 This project is used to manage Bentofiles in a repository, build the Docker Images and deploy them to Kubernetes.
 While most of the steps are automated by default, the process after pushing a Bentofile to Yatai had to be automated with a script.
@@ -80,11 +81,6 @@ To fix these issues and enable Continuous Delivery, the <code>update_deployment.
 extracts the latest pushed Bentofile and deploys it into the staging deployment.
 Yatai then builds the Image and after this process finishes successfully it does a rolling release, exchanging the current staging model.
 This can either be run manually or in our case automated with a Cronjob.
-
-Because Yatai does not provide a way to get the latest Bentofile push and the way mentioned in [this GitHub Issue](https://github.com/bentoml/BentoML/issues/2551) does not work anymore.
-The <code>get_bento_version.py</code> extracts this information from the Minio S3 Bucket.
-
-WIP
 
 ## ZenML pipeline
 
@@ -120,21 +116,34 @@ Pushes the last build bento to Yatai, from where it gets deployed into our stagi
 This notebook used MapBox and geoAPI to enrich the training data with no wildfire pictures from cities with similar geographical makeup as Canada. For each entry in a list of 128 Cities, the geo API is used to gather its coordinates. A random noise of ~ 5 km^2 is added for each coordinate, and the MapBox API is called to generate an image. This gets repeated 50 times per city to add 6400 additional samples to our data. We assume that the images depict cities and their surroundings. We can safely classify them as no wildfire.  
 
 ### model_experiments
-This notebook was used to do the initial experiments for deciding which basic model architecture to use in our project. As you can see in the notebook, we found corrupt images in our source dataset and removed them. In regard to the model architecture, we tested different batch sizes, different layers and layer sizes, we experimented with retraining all the resnet layer weights and different base models such as different ResNet and DenseNet sizes. The results can be seen inside the notebook. Finally we did our first predictions using the mapbox api.
+This notebook was used to do the initial experiments for deciding which basic model architecture to use in our project. As you can see in the notebook, we found corrupt images in our source dataset and removed them. In regard to the model architecture, we tested different batch sizes, different layers, and layer sizes, we experimented with retraining all the resnet layer weights and different base models such as different ResNet and DenseNet sizes. The results can be seen inside the notebook. Finally, we did our first predictions using the Mapbox API.
 
 ### hp_tuning_test
 This notebook was used to test hyperparameter tuning on our model. As described in the hp_tuner step, we used the keras tuner package. We experimented with different layer sizes and activation functions with five epochs each. The results can be seen inside the notebook.
 
-## Major challanges
+## Major challenges
 
 ### Tensorflow GPU
-Not specifically relevant to the project as we could have used cloud infrastructure for training, but getting tensorflow with gpu support to run correctly on a windows machine was a major struggle.
+Not specifically relevant to the project as we could have used cloud infrastructure for training, but getting TensorFlow with GPU support to run correctly on a Windows machine was a major struggle.
 
 ### Service integration
-With using many services as zenml, mlflow, yatai, bento etc. we often got into dependency hell but after some tinkering it worked eventually. But either way a sometimes frustrating experience.
+With using many services such as Zenml, Mlflow, Yatai, bento, etc. we often got into dependency hell but after some tinkering, it worked eventually. But either way a sometimes frustrating experience.
 
 ### Infrastructure problems
-Pushing our bentos to yatai posed a challange aswell, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imagined
+Pushing our bentos to Yatai posed a challenge as well, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imagined
+for that, the Postgres Database for Yatai had to be altered for being able to push Bentofiles to:
+
+    \d yatai
+    ALTER TABLE "label" ALTER COLUMN "value" TYPE varchar(256);  
+    ALTER TABLE "model_repository" ALTER COLUMN "name" type varchar(256);
+
+
+Also because Yatai does not provide a way to get the latest Bentofile that was pushed and the way mentioned in [this GitHub Issue](https://github.com/bentoml/BentoML/issues/2551) does not work anymore.
+The <code>get_bento_version.py</code> extracts this information from the Minio S3 Bucket.
+
+Because of the use of TensorFlow and an Image model, which need a lot of memory, the Image Builder was constantly running into memory limits. Despite having four nodes with 8 Gb of Memory, 6 GB of that usable, each.
+But the Pod that gets created does not specify enough memory allocation and there is no setting to change that yet. So when the Pod gets scheduled on to the wrong node it fails and it has to be deleted to try again.
+Nodes with more memory would help but we were not able to get them from Digital Ocean without upgrading our Account.
 
 
 WIP
