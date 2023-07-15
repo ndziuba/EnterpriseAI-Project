@@ -48,7 +48,7 @@ After that, the following tasks will be executed (detailed explanation of the in
         - steps/evaluator evaluates the performance of newly trained and prodaction model
         - steps/trigger_decision compares accuracy and decides if the new model is better
         - steps/deployer deploys model to yatai based on the trigger decision
-        - steps/discord_bot posts alert that a new model has benn pushed 
+        - steps/discord_bot posts alert that a new model has been pushed 
     - Yatai automatically updates pods to new version and builds containers
         
 ## Infrastructure
