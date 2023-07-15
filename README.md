@@ -103,12 +103,14 @@ To fix these issues and enable Continuous Delivery, the <code>update_deployment.
 extracts the latest pushed Bentofile and deploys it into the staging deployment.
 Yatai then builds the Image and after this process finishes successfully it does a rolling release, exchanging the current staging model.
 This can either be run manually or in our case automated with a Cronjob.
+After a successful A/B Test, the production environment gets manually set to the new Bento.
 
-To use the scripts the server has to have python3, jq, pip, bentoml and minio.
-And the user has to login into yatai with <code>bentoml cloud login</code>.
+To use the scripts the server has to have python3, jq, pip, bentoml and minio installed.
+Also, the user has to login into Yatai, as further shown, with the server that is running the scripts.
 
       apt install python3 jq pip
       pip install minio bentoml python-dotenv pathlib
+      bentoml yatai login --api-token {YOUR_TOKEN_GOES_HERE} --endpoint http://yatai.$DOMAIN
 
 
 ## Next.js React App
