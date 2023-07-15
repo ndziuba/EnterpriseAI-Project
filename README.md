@@ -1,4 +1,4 @@
-# EnterpriseAI-Project - Wildfire prediction<img width="50" height="50" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/f7cdcca1-74a6-4cdf-9bbc-b0eaa533849a">
+# Enterprise AI Project - Wildfire prediction<img width="50" height="50" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/f7cdcca1-74a6-4cdf-9bbc-b0eaa533849a">
 
 
 With this project we set up a mlops pipeline to predict the potential of a wildfire on specific, user-given coordinats. 
