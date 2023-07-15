@@ -12,10 +12,48 @@ CONFIG=$(cat << EOF
     "targets": [
         {
             "type": "stable",
-            "bento_repository": "wf_classifier",
+            "bento_repository": "wf_service",
             "bento": "",
             "config": {
                 "hpa_conf": {
+                    "min_replicas": 2,
+                    "max_replicas": 2
+                },
+                "resources": {
+                    "requests": {
+                        "cpu": "250m",
+                        "memory": "200Mi",
+                        "gpu": ""
+                    },
+                    "limits": {
+                        "cpu": "500m",
+                        "memory": "512Mi",
+                        "gpu": ""
+                    }
+                },
+                "envs": [],
+                "runners": {
+                    "wf_model": {
+                        "resources": {
+                            "requests": {
+                                "cpu": "200m",
+                                "memory": "512Mi"
+                            },
+                            "limits": {
+                                "cpu": "500m",
+                                "memory": "900Mi"
+                            }
+                        },
+                        "hpa_conf": {
+                            "min_replicas": 2,
+                            "max_replicas": 2
+                        },
+                        "envs": [],
+                        "enable_stealing_traffic_debug_mode": false,
+                        "enable_debug_mode": false,
+                        "enable_debug_pod_receive_production_traffic": false,
+                        "bento_deployment_overrides": {}
+                    }
                 }
             }
         }
