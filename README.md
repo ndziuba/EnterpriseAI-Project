@@ -56,9 +56,8 @@ WIP
 
 
 
+# ~~The following Section needs to be deleted before finishing the project~~
 
-
-# EnterpriseAI-Project
 Documentation:
 TODO:
   - UseCase
