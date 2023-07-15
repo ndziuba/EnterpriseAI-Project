@@ -13,12 +13,14 @@ The input images of the models are images like shown below and the output is a c
   <img width="350" height="350" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0">
 </p>
 
+## Workflow
+
 Our Workflow Stack consists of the following illustrated technologies and services.
 <p align="center">
   <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/d103d20a-62c2-4a51-889d-cd51ec325377">
 </p>
 
-## Folder structure:
+## Folder structure
 
     container/:  Includes all files to spin up the base infrastructure with Docker.
     data/:       All files regarding the data used in model training.
@@ -99,6 +101,9 @@ This feedback containing an id, the image as Base64, coordinates, prediction, fe
 <p align="center">
   <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/6859689f-d14c-4f4c-9dac-45bf462f52dc">
 </p>
+
+To run the app on a server a Dockerfile was configured to build a container, with for example <code>docker build</code>.
+To then deploy it either <code>docker run</code> or the provided <code>docker-compose.yml</code> with <code>docker-compose up -d</code> can be used.
 
 
 
