@@ -10,7 +10,7 @@ interface FeedbackProps {
         longitude: number,
         prediction: string,
         feedback: number,
-        modelVersion: string
+        model_version: string
     }>
 }
 
@@ -25,7 +25,7 @@ export default function Feedback({ feedback }: FeedbackProps) {
                     <Text>{entry.latitude}, {entry.longitude}</Text>
                     <Text><strong>Prediction:</strong> {entry.prediction}</Text>
                     <Text><strong>Feedback:</strong> {entry.feedback === 1 ? <CheckIcon /> : <CloseIcon />}</Text>
-                    <Text><strong>Model Version:</strong> {entry.modelVersion}</Text>
+                    <Text><strong>Model Version:</strong> {entry.model_version}</Text>
                 </Box>
             ))}
         </HStack>
@@ -34,7 +34,7 @@ export default function Feedback({ feedback }: FeedbackProps) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
     try {
-        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://eai.dziubalabs.de';
+        const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://eai.dziubalabs.de';
         const res = await fetch(`${baseUrl}/api/getFeedback`);
 
         if (!res.ok) {
