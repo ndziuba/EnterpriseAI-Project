@@ -8,6 +8,7 @@ We trained a customized ResNet50 model on the dataset and add our own data with 
 In the following section we lead you through a complete walkthroug of our pipeline from data to production ready prediciton web-app.
 
 ## Practical project walkthrough
+TBD
 
 ## ZenML pipeline
 
