@@ -132,7 +132,7 @@ Not specifically relevant to the project as we could have used cloud infrastruct
 With using many services as zenml, mlflow, yatai, bento etc. we often got into dependency hell but after some tinkering it worked eventually. But either way a sometimes frustrating experience.
 
 ### Infrastructure problems
-Pushing our bentos to yatai posed a challange aswell, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imageined
+Pushing our bentos to yatai posed a challange aswell, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imagined
 
 
 WIP
