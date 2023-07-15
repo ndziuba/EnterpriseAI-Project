@@ -5,13 +5,9 @@ The project is based on [this](https://www.kaggle.com/datasets/abdelghaniaaba/wi
 
 We trained a customized ResNet50 model on the dataset and added our own data with the same procedure as in the original dataset, to allow an active flow of new data to the model and set up a [web-app](https://eai.dziubalabs.de/) for users to run the prediction.
 
-The input images we used look like this:
+The input images of the models are images like shown below and the output is a classification to either wildfire potential or not with a corresponding confidence.
 
 ![-61 5607,50 52878](https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0)
-
-The ouput of the model is a classification to either wildfire potential or not with a corresponding confidence.
-
-In the following section we lead you through a complete walkthroug of our pipeline from data to production ready prediciton web-app.
 
 ## Practical project walkthrough
 TBD
