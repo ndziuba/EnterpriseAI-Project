@@ -4,6 +4,7 @@
 /data
 /notebooks/hp_tuning_test/models
 /notebooks/model_experiments/models
+/notebooks/model_compression/models
 /pipelines/__pycache__
 /steps/__pycache__
 /__pycache__

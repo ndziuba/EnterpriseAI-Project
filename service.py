@@ -12,7 +12,7 @@ runner = bentoml.tensorflow.get("wf_model:latest").to_runner()
 
 svc = bentoml.Service(name="wf_service", runners=[runner])
 
-model_version = bentoml.tensorflow.get("wf_model:latest").__getattribute__('tag').version
+service_version = bentoml.get("wf_service:latest").__getattribute__('tag').version
 
 @svc.api(input=Image(), output=NumpyNdarray())
 async def predict_image(f: PILImage) -> NDArray[Any]:

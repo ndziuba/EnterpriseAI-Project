@@ -13,7 +13,7 @@ bento_builder = bento_builder_step.with_options(
         service="service.py:svc",  # Path to the service file within zenml repo
         labels={  # Labels to be added to the bento bundle
             "framework": "tensorflow",
-            "dataset": "base_data",
+            "dataset": "base_dataset",
             "zenml_version": "0.41",
         },
         exclude=[".dvc", "data", "models", "notebooks"],  # Exclude files from the bento bundle
