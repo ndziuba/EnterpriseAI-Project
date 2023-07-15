@@ -11,7 +11,7 @@ The input images of the models are images like shown below and the output is a c
 ![-61 5607,50 52878](https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0)
 
 <p align="center">
-  <img width="350" height="350" src="[-61 5607,50 52878](https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0)">
+  <img width="350" height="350" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0">
 </p>
 
 ## Folder structure:
