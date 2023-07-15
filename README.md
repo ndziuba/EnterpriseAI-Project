@@ -112,7 +112,7 @@ A simple alerting mechanism builds in the pipeline to notify us via our discord 
 ### trigger_decision step
 Step comparing the accuracy of the newly trained model and the model currently in deployment and returns a bool.
 
-### Deployer step 
+### deployer step 
 Pushes the last build bento to Yatai, from where it gets deployed into our staging model. It further saves the model to compare its performance in the next iteration. 
 
 ## Notebooks
