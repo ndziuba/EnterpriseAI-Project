@@ -31,11 +31,25 @@ Our Workflow Stack consists of the following illustrated technologies and servic
     steps/:      All steps that are used in the mlops pipeline.
     webapp:      The Next.js React App as frontend for the model.
 
-
 ## Practical project walkthrough
-TBD
 
+Start the pipeline execution
 
+    python run.py
+
+After that, the following tasks will be executed (detailed explanation of the individual steps and pipeline follows later):
+
+    - zenml starts pipeline execution
+      - pipeline/training_pipeline will be called with parameter: epochs=5, path='data', batch_size=32, hp_tuning_epochs=1
+        - steps/data_loader will be called 
+        - steps/hp_tuner will be called with set parameters
+        - steps/trainer will be called with the tuner-optimal model; mlflow starts logging training
+        - steps/bento_builder starts building a bento file based on the trained model
+        - steps/evaluator evaluates the performance of newly trained and prodaction model
+        - steps/trigger_decision compares accuracy and decides if the new model is better
+        - steps/deployer deploys model to yatai based on the trigger decision
+        - steps/discord_bot posts alert that a new model has benn pushed 
+        
 ## Infrastructure
 This section provides an overview of the infrastructure of the project, all .example files are for demonstration and have to be stripped of the .example for production.
 
