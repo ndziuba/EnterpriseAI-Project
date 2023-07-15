@@ -13,6 +13,8 @@ The input images of the models are images like shown below and the output is a c
   <img width="350" height="350" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0">
 </p>
 
+## Workflow
+
 Our Workflow Stack consists of the following illustrated technologies and services.
 <p align="center">
   <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/d103d20a-62c2-4a51-889d-cd51ec325377">
