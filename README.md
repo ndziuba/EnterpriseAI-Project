@@ -7,9 +7,6 @@ We trained a customized ResNet50 model on the dataset and added our own data wit
 
 The input images of the models are images like shown below and the output is a classification to either wildfire potential or not with a corresponding confidence.
 
-
-![-61 5607,50 52878](https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0)
-
 <p align="center">
   <img width="350" height="350" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/83732214/c640c65b-2132-4ddb-a5ec-f9804c40cbd0">
 </p>
