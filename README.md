@@ -33,6 +33,13 @@ Pushes the last build bento to Yatai, from where it gets deployed into our stagi
 
 ### enrich_data
 This notebook used MapBox and geoAPI to enrich the training data with no wildfire pictures from cities with similar geographical makeup as Canada. For each entry in a list of 128 Cities, the geo API is used to gather its coordinates. A random noise of ~ 5 km^2 is added for each coordinate, and the MapBox API is called to generate an image. This gets repeated 50 times per city to add 6400 additional samples to our data. We assume that the images depict cities and their surroundings. We can safely classify them as no wildfire.  
+
+### model_experiments
+This notebook was used to do the initial experiments for deciding which basic model architecture to use in our project. As you can see in the notebook, we found corrupt images in our source dataset and removed them. In regard to the model architecture, we tested different batch sizes, different layers and layer sizes, we experimented with retraining all the resnet layer weights and different base models such as different ResNet and DenseNet sizes. The results can be seen inside the notebook. Finally we did our first predictions using the mapbox api.
+
+### hp_tuning_test
+This notebook was used to test hyperparameter tuning on our model. As described in the hp_tuner step, we used the keras tuner package. We experimented with different layer sizes and activation functions with five epochs each. The results can be seen inside the notebook.
+
 # EnterpriseAI-Project
 Documentation:
 TODO:
