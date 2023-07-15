@@ -3,4 +3,4 @@ outs:
   size: 1736590861
   nfiles: 49297
   hash: md5
-  path: s3://dagshub
+  path: data
