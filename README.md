@@ -91,10 +91,17 @@ This can either be run manually or in our case automated with a Cronjob.
 
 As frontend for our Model, we use a React App built on the Next.js framework. It utilizes Leaflet to show an OpenStreetMap to pick the Latitude and Longitude on click.
 These coordinates get sent to the serverside Backend to get processed to query the Mapbox API. 
-Mapbox then returns the queried image and the App then queries our Predict endpoint, which Response the confidence and Bento tag to the Backend.
+Mapbox then returns the queried image and the App then queries our Predict endpoint, which responds with the confidence and Bento tag to the Backend.
 
-The App outputs this information together with the queried Image to the User, with the possibility to give feedback for the prediction.
+The App outputs this information together with the queried image to the User and the possibility to give feedback for the prediction.
 This feedback containing an id, the image as Base64, coordinates, prediction, feedback, and model version gets saved in an SQLite Database inside the Next.js Application.
+
+<p align="center">
+  <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/6859689f-d14c-4f4c-9dac-45bf462f52dc">
+</p>
+
+
+
 
 ## ZenML pipeline
 
