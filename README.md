@@ -40,6 +40,24 @@ This notebook was used to do the initial experiments for deciding which basic mo
 ### hp_tuning_test
 This notebook was used to test hyperparameter tuning on our model. As described in the hp_tuner step, we used the keras tuner package. We experimented with different layer sizes and activation functions with five epochs each. The results can be seen inside the notebook.
 
+## Major challanges
+
+### Tensorflow GPU
+Not specifically relevant to the project as we could have used cloud infrastructure for training, but getting tensorflow with gpu support to run correctly on a windows machine was a major struggle.
+
+### Service integration
+With using many services as zenml, mlflow, yatai, bento etc. we often got into dependency hell but after some tinkering it worked eventually. But either way a sometimes frustrating experience.
+
+### Service integration
+Pushing our bentos to yatai posed a challange aswell, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imageined
+
+
+WIP
+
+
+
+
+
 # EnterpriseAI-Project
 Documentation:
 TODO:
