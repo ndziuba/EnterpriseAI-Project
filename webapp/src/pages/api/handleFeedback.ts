@@ -9,7 +9,7 @@ export default async function handleFeedback(req: NextApiRequest, res: NextApiRe
     const { image, latitude, longitude, prediction, feedback, modelVersion } = req.body;
     const dirPath = path.join(process.cwd(), 'data');
     console.log(`Image: ${image}, Latitude: ${latitude}, Longitude: ${longitude}, Prediction: ${prediction}, Feedback: ${feedback}, Model Version: ${modelVersion}`);
-
+    
     // Check if the directory exists
     if (!fs.existsSync(dirPath)) {
     // If the directory doesn't exist, create it
