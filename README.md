@@ -53,11 +53,9 @@ After that, the following tasks will be executed (detailed explanation of the in
         
 ## Infrastructure
 This section provides an overview of the infrastructure of the project, all .example files are for demonstration and have to be stripped of the .example for production.
+The project utilizes one vps server hosted on Netcup hosting different Docker containers and a Kubernetes Cluster where the nodes are running on Digital Ocean. The Netcup vps also provides CLI Access to the Cluster where Kubernetes can be configured.
 
-### Serverstructure
-The project utilizes one server hosting different Docker containers and a Kubernetes Cluster, where the nodes are running on Digital Ocean. The server also provides CLI Access to the Cluster where Kubernetes can be configured.
-
-#### Docker Server
+### Docker Server
 In the folder container, a <code>container/docker-compose.yml.example</code> is provided setting the base infrastructure up for the project. After a <code>docker-compose up -d</code> the server provides the following services:
 
     Caddy:       The reverse proxy for the server, the config can be found in containers/caddy/proxy/Caddyfile
@@ -69,7 +67,7 @@ In the folder container, a <code>container/docker-compose.yml.example</code> is 
 
 A <code>.env.example</code> is provided that has to be configured for production.
 
-#### Kubernetes
+### Kubernetes
 The Kubernetes Cluster is a four-node Cluster hosting our production deployment with Yatai.
 Being in the early development of a restructure the documentation for Yatai is either lacking or functionalities are changed, not working as documented or some basic functionality is missing.
 For example, the Bento Deployments from Yatai can't be configured with a tls secret for the nginx-ingress to add a certificate to the endpoint.
@@ -91,8 +89,12 @@ The Cluster provides the following services:
     Prometheus:       To get metrics for the deployments and the cluster with metrics-server.
     Grafana:          To provide the dashboards for the Kubernetes environment.
 
+### DVC with Dagshub
+Because Github has a file size limit and can not integrate with S3 Buckets we additionally used Dagshub, an data science oriented git repository.
+With Dagshub we can use an S3 Bucket as DVC Storage and integrate it into the Dagshub Repository, which is synchronizing with GitHub.
+It provides a hosted Mlflow, but because we self-hosted a newer version we did not use it, and has additional features like a data pipeline visualizer.
 
-### Continuous Integration and Deployment with Yatai
+## Continuous Integration and Deployment with Yatai
 Yatai is the cloud deployment infrastructure for BentoML and represents our CI/CD pipeline. 
 This project is used to manage Bentofiles in a repository, build the Docker Images and deploy them to Kubernetes.
 While most of the steps are automated by default, the process after pushing a Bentofile to Yatai had to be automated with a script.
