@@ -18,8 +18,12 @@ TBD
 Folder structure:
 
     container/:  Includes all files to spin up the base infrastructure.
+    data/:       All files regarding the data used in model training 
     k8s/:        All files regarding the production and staging deployment.
     k8s/config:  All files to configure the secrets, certificates and the ingress for yatai.
+    models/:     All generated models while executing pipeline
+    pipelines/:  Contains the pipelines used in the project
+    steps/:      All steps that are used in the mlops pipeline
     webapp:      The Next.js React App as frontend for the model.
 
 
