@@ -1,14 +1,79 @@
 # EnterpriseAI-Project
-With this project we set up a mlflow pipeline to predict the potential of a wildfire on specific, user-given coordinats. 
+With this project, we set up a mlflow pipeline to predict the potential of a wildfire on specific, user-given coordinates. 
 
-The project is based on [this](https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset) kaggle dataset. In this dataset, the creator added satellite images of coordinates in canada, where there previously has been a wildfire or currently is a wildfire, based on another wildfire api. Mapbox doesn't allow the specification of when the pictures are taken and thats why we can't tell, if there is a wildfire currently ongoing in the image or not.
+The project is based on [this](https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset) kaggle dataset. In this dataset, the creator added satellite images of coordinates in Canada, where there previously has been a wildfire or currently is a wildfire, based on another wildfire API. Mapbox doesn't allow the specification of when the pictures are taken and that's why we can't tell, if there is a wildfire currently ongoing in the image or not.
 
 We trained a customized ResNet50 model on the dataset and add our own data with the same procedure as in the original dataset, to allow an active flow of new data to the model and set up a [web-app](https://eai.dziubalabs.de/) for users to run the prediction.
 
-In the following section we lead you through a complete walkthroug of our pipeline from data to production ready prediciton web-app.
+In the following section, we lead you through a complete walkthrough of our pipeline from data to production-ready prediction web-app.
+
+Folder structure:
+
+    container/:  Includes all files to spin up the base infrastructure.
+    k8s/:        All files regarding the production and staging deployment.
+    k8s/config:  All files to configure the secrets, certificates and the ingress for yatai.
+    webapp:      The Next.js React App as frontend for the model.
+
 
 ## Practical project walkthrough
 TBD
+
+
+## Infrastructur
+This section provides an overview of the infrastructure of the project, all .example files are for demonstration and have to be stripped of the .example for production.
+
+### Serverstructur
+The project utilizes one server hosting different Docker containers and a Kubernetes Cluster, where the nodes are running on Digital Ocean. The server also provides CLI Access to the Cluster where Kubernetes can be configured.
+
+    Caddy: The reverse proxy for the server, the config can be found in containers/caddy/proxy/Caddyfile
+
+#### Docker Server
+In the folder container, a <code>container/docker-compose.yml.example</code> is provided setting the base infrastructure up for the project. After a <code>docker-compose up -d</code> the server provides the following services:
+
+    Caddy:       The reverse proxy for the server, the config can be found in containers/caddy/proxy/Caddyfile
+    Zenml:       A Zenml 0.41 Server gets provided saving its data in a SQlite Database.
+    Minio:       A S3 compatible service as object storage for Zenml and MLflow, also saving the DVC data.
+    Prometheus:  To monitor the server Prometheus, including cadvisor and node-exporter, are set up.
+    Grafana:     To show dashboards of the gathered data from Prometheus.
+
+A <code>.env.example</code> is provided that has to be configured for production.
+
+#### Kubernetes
+The Kubernetes Cluster is a four-node Cluster hosting our production deployment with Yatai.
+Being in the early development of a restructure the documentation for Yatai is either lacking or functionalities are changed, not working as documented or some basic functionality is missing.
+For example, the Bento Deployments from Yatai can't be configured with a tls secret for the nginx-ingress to add a certificate to the endpoint.
+This can be omitted by deploying the Bentos from the CLI, adding a tls secret in the YAML, as shown in the <code>k8s/prod-deployment.yml.example</code> and <code>k8s/staging-deployment.yml.example</code>.
+These YAML files provide a production and staging deployment in Kubernetes, where the staging is our challenging model, with their respective endpoints. 
+To have a single endpoint with a A/B test the <code>k8s/predict-ingress.yml.example</code> sets up a separate nginx-ingress splitting the traffic with a canary rule for predict.yatai.<DOMAIN> 50/50 between the two deployments.
+This also configuration also provides the ability by terminating the staging environment to again route all traffic to the production deployment.
+To secure all endpoints with a certificate the configuration examples for Cert Manager are provided under <code>k8s/config</code>.
+
+The Cluster provides the following services:
+
+    Yatai:            Yatai is manually set up by the instruction on their website because the automatic installer is not 
+                      working in Azure and Digital Ocean. 
+                      This deployment includes yatai, yatai-image-builder and yatai-deployment.
+    Docker registry:  A local Docker registry is provided for yatai-image-builder to commit the build images to.
+    Nginx Ingress:    Our ingress controller which manages all incoming traffic.
+    Cert Manager:     A service providing ACME Let's Encrypt certificates for the endpoints, 
+                      using the <code>k8s/config/externaldns.yml</code> to update the Digital Ocean DNS.
+    Prometheus:       To get metrics for the deployments and the cluster with metrics-server.
+    Grafana:          To provide the dashboards for the Kubernetes environment.
+
+
+### Continuous Integration and Deployment
+Yatai is the cloud deployment infrastructure for BentoML and represents our CI/CD pipeline. 
+This project is used to manage Bentofiles in a repository, build the Docker Images and deploy them to Kubernetes.
+While most of the steps are automated by default, the process after pushing a Bentofile to Yatai had to be automated with a script.
+After the push Yatai does not build Images, it only builds them when a Bentofile gets put into a deployment.
+But it also has no functionality of automatically putting a Bentofile into deployment after a push.
+
+To fix these issues and enable Continuous Delivery, the <code>update_deployment.sh</code> script utilizing <code>get_bento_version.py</code>
+extract the latest pushed Bentofile and deploy it into the staging deployment.
+Yatai then builds the Image and after this process finishes successfully the current staging model gets changed with a rolling release.
+This can either be run manually or in our case automated with a Cronjob.
+
+WIP
 
 ## ZenML pipeline
 
