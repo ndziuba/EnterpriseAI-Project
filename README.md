@@ -89,10 +89,12 @@ The Cluster provides the following services:
     Prometheus:       To get metrics for the deployments and the cluster with metrics-server.
     Grafana:          To provide the dashboards for the Kubernetes environment.
 
-### DVC with Dagshub
-Because Github has a file size limit and can not integrate with S3 Buckets we additionally used Dagshub, an data science oriented git repository.
-With Dagshub we can use an S3 Bucket as DVC Storage and integrate it into the Dagshub Repository, which is synchronizing with GitHub.
-It provides a hosted Mlflow, but because we self-hosted a newer version we did not use it, and has additional features like a data pipeline visualizer.
+### Dagshub
+Because Github has a file size limit we had to use S3 as Storage for our DVC. But because Github can not integrate with S3 Buckets we additionally used Dagshub, an data science oriented git repository.
+With Dagshub we can integrate S3 Buckets directly into the Repository and use them to store our DVC data.
+Dagshub also provides a hosted DVC, but we use our self-hosted Minio S3 to store the files, and just added it to the Repository.
+Additionally, Dagshub provides a hosted Mlflow, but because we self-hosted a newer version we also did not use it.
+Despite that, if we did not self-host the infrastructure we would have used more of this service.
 
 ## Continuous Integration and Deployment with Yatai
 Yatai is the cloud deployment infrastructure for BentoML and represents our CI/CD pipeline. 
