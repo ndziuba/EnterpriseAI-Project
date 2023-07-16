@@ -190,8 +190,8 @@ Not specifically relevant to the project as we could have used cloud infrastruct
 With using many services such as ZenML, MLflow, Yatai, BentoML etc. we often got into dependency hell but after some tinkering, it worked eventually. But either way a sometimes frustrating experience.
 
 ### Infrastructure problems
-Pushing our bentos to Yatai posed a challenge as well, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imagined
-for that, the Postgres Database for Yatai had to be altered for being able to push Bentofiles to:
+Pushing our bentos to Yatai posed a challenge as well, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imagined.
+As a fix the Postgres Database for Yatai had to be altered for being able to push Bentofiles to:
 
     \d yatai
     ALTER TABLE "label" ALTER COLUMN "value" TYPE varchar(256);  
