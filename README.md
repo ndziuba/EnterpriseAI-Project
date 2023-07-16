@@ -37,7 +37,7 @@ Start the pipeline execution
 
     python run.py
 
-After that, the following tasks will be executed (detailed explanation of the individual steps and pipeline follows later):
+After that, the following tasks will be executed (detailed explanation of the individual steps and pipeline can be found in the following sections):
 
     - zenml starts pipeline execution
       - pipeline/training_pipeline will be called with parameter: epochs=5, path='data', batch_size=32, hp_tuning_epochs=1
