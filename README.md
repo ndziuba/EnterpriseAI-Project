@@ -45,7 +45,7 @@ After that, the following tasks will be executed (detailed explanation of the in
         - steps/hp_tuner will be called with set parameters
         - steps/trainer will be called with the tuner-optimal model; mlflow starts logging training
         - steps/bento_builder starts building a bento file based on the trained model
-        - steps/evaluator evaluates the performance of newly trained and prodaction model
+        - steps/evaluator evaluates the performance of newly trained and production model
         - steps/trigger_decision compares accuracy and decides if the new model is better
         - steps/deployer deploys model to yatai based on the trigger decision
         - steps/discord_bot posts alert that a new model has been pushed 
