@@ -116,6 +116,8 @@ Also, the user has to login into Yatai, as further shown, with the server that i
       pip install minio bentoml python-dotenv pathlib
       bentoml yatai login --api-token {YOUR_TOKEN_GOES_HERE} --endpoint http://yatai.$DOMAIN
 
+To automatically run the pytheline in predefined intervals, we added the option run the pipeline on a fixed schedule for a set amount of times in the run.py file. 
+This option allows us to continously update the model with uptodate data, retrain and update the production model without any additional user input.
 
 ## Next.js React App
 
@@ -174,6 +176,10 @@ This notebook was used to do the initial experiments for deciding which basic mo
 
 ### hp_tuning_test
 This notebook was used to test hyperparameter tuning on our model. As described in the hp_tuner step, we used the keras tuner package. We experimented with different layer sizes and activation functions with five epochs each. The results can be seen inside the notebook.
+
+### hp_tuning_test
+This notebook was used to test and explore the options to compress the model size, as out current model (mainly the ResNet base model) is camparably large. We tried implementing a pruning step to cut down the inference time and size of the model but it didn't lead to any significant performance gains.
+The only method that brought down the size of the model from 95mb to around 20mb was converting our model to a TFlite model but given the proprietary model architecture this change would have resulted in a lot of work adapting the pipeline and we did not consider it worth it in our case.
 
 ## Major challenges
 
