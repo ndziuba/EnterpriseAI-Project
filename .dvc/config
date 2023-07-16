@@ -1,7 +1,7 @@
 [core]
-    remote = s3-data-storage
+    remote = dagshub
 ['remote "origin"']
     url = https://dagshub.com/ndziuba/EnterpriseAI-Project.dvc
-['remote "s3-data-storage"']
+['remote "dagshub"']
     url = s3://dagshub/
     endpointurl = https://s3.eai.dziubalabs.de/
