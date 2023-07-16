@@ -187,7 +187,7 @@ The only method that brought down the size of the model from 95mb to around 20mb
 Not specifically relevant to the project as we could have used cloud infrastructure for training, but getting TensorFlow with GPU support to run correctly on a Windows machine was a major struggle.
 
 ### Service integration
-With using many services such as Zenml, Mlflow, Yatai, bento, etc. we often got into dependency hell but after some tinkering, it worked eventually. But either way a sometimes frustrating experience.
+With using many services such as ZenML, MLflow, Yatai, BentoML etc. we often got into dependency hell but after some tinkering, it worked eventually. But either way a sometimes frustrating experience.
 
 ### Infrastructure problems
 Pushing our bentos to Yatai posed a challenge as well, because multiple problems like filesize limits and database errors like bento-tag limits to 128 VARCHARs needed some attention to work the way we imagined
