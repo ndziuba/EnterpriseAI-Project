@@ -43,7 +43,7 @@ export default async function handleRequest(req: NextApiRequest, res: NextApiRes
   let predictionResponse = predictResponse.data;
 
   // Update API response state with new prediction
-  let wildfire = predictionResponse[0][0] > 0.5 ? false : true;
+  let wildfire = predictionResponse[0] > 0.5 ? false : true;
   let percentage =  wildfire == false ?  (predictionResponse[0] * 100).toFixed(2) : (predictionResponse[1] * 100).toFixed(2);
   let modelVersion = predictionResponse[2];
   const base64Image = Buffer.from(imageResponse.data, 'binary').toString('base64');
