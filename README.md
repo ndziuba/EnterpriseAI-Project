@@ -141,7 +141,7 @@ To then deploy it either <code>docker run</code> or the provided <code>docker-co
 ## ZenML pipeline
 
 ### data_loader step
-The data_loader step is a part of the training pipeline. It fetches wildfire data from the Canada Wildfire Service(https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv), filters it based on a specified timeframe (daydelta parameter), and retrieves satellite images of the wildfires from the Mapbox API. This step mimics the origin of the Kaggle dataset and creates additional training, valid and test data, enabling a continuous change in the model. 
+The data_loader step is a part of the training pipeline. It fetches wildfire data from the [Canada Wildfire Service](https://cwfis.cfs.nrcan.gc.ca/downloads/activefires/activefires.csv), filters it based on a specified timeframe (daydelta parameter), and retrieves satellite images of the wildfires from the Mapbox API. This step mimics the origin of the Kaggle dataset and creates additional training, valid and test data, enabling a continuous change in the model. 
 
 The step returns the count of images saved, which is useful for understanding the volume of data added in each run.
 
@@ -157,8 +157,8 @@ The evaluator step loads the new model and the current production model and retu
 ### bento_builder step
 The bento_builder step starts the building of the bento with the new model. It specifies, which data in the repository to exclude from building and which python packages to include in the final bento. Furthermore the corresponding service.py spcifies how the runner should work in production. We configured the bento to get an image as the input and return an array with the confidence of the corresponding class and the model version used to run the prediction.
 
-### discord_alter step
-A simple alerting mechanism builds in the pipeline to notify us via our discord of updates. It follows the structure of (https://github.com/zenml-io/zenml-projects/blob/main/nba-pipeline/steps/discord_bot.py). The step takes the deployment decision and the test_evaluation accuracy and uses the discord webhook interface to send the message.
+### discord_alert step
+A simple alerting mechanism builds in the pipeline to notify us via our discord of updates. It follows the structure of [this](https://github.com/zenml-io/zenml-projects/blob/main/nba-pipeline/steps/discord_bot.py) repo. The step takes the deployment decision and the test_evaluation accuracy and uses the discord webhook interface to send the message.
 
 ### trigger_decision step
 Step comparing the accuracy of the newly trained model and the model currently in deployment and returns a bool.
