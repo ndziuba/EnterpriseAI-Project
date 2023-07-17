@@ -175,7 +175,7 @@ This notebook used MapBox and geoAPI to enrich the training data with no wildfir
 This notebook was used to do the initial experiments for deciding which basic model architecture to use in our project. As you can see in the notebook, we found corrupt images in our source dataset and removed them. In regard to the model architecture, we tested different batch sizes, different layers, and layer sizes, we experimented with retraining all the resnet layer weights and different base models such as different ResNet and DenseNet sizes. The results can be seen inside the notebook. Finally, we did our first predictions using the Mapbox API.
 
 ### integrated_gradient_test
-To better understand the workings of our model we applied the explainable AI method of Integrated Gradients (IG). We followed the tutorial (https://www.tensorflow.org/tutorials/interpretability/integrated_gradients). 
+To better understand the workings of our model we applied the explainable AI method of Integrated Gradients (IG). We followed this [tutorial](https://www.tensorflow.org/tutorials/interpretability/integrated_gradients). 
 The technique generates interpolations between a baseline (a black image) and the image. Generating the relevant gradients for each interpolation. A mask can be created with these gradients, highlighting the relevant pixels for the prediction.
 
 ### hp_tuning_test
