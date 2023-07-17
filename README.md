@@ -119,6 +119,14 @@ Also, the user has to login into Yatai, as further shown, with the server that i
 To automatically run the pipeline in predefined intervals, we added the option to run the pipeline on a fixed schedule for a set amount of times in the run.py file. 
 This option allows us to continuously update the model with up-to-date data, and retrain and update the production model without any additional user input.
 
+## Monitoring
+
+We monitor the deployment requests with Grafana and Prometheus as shown in the following picture, it shows our 50/50 traffic split and resource usage.
+The information is extracted through endpoints in our Pods provided by BentoML that feed their metrics into Prometheus, where then a Dashboard in Grafana is set up to visualize them.
+
+![grafik](https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/d2b459e1-9bfe-4879-a8b2-85c35211a60d)
+
+
 ## Next.js React App
 
 As frontend for our Model, we use a React App built on the Next.js framework. It utilizes Leaflet to show an OpenStreetMap to pick the Latitude and Longitude on click.
@@ -128,9 +136,9 @@ Mapbox then returns the queried image and the App then queries our Predict endpo
 The App outputs this information together with the queried image to the User and the possibility to give feedback for the prediction.
 This feedback containing an id, the image as Base64, coordinates, prediction, feedback, and model version gets saved in an SQLite Database inside the Next.js Application.
 
-<p align="center">
-  <img width="800" height="100%" src="https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/6859689f-d14c-4f4c-9dac-45bf462f52dc">
-</p>
+
+ ![grafik](https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/6859689f-d14c-4f4c-9dac-45bf462f52dc)
+
 
 To run the app on a server a Dockerfile was configured to build a container, with for example <code>docker build</code>.
 To then deploy it either <code>docker run</code> or the provided <code>docker-compose.yml</code> with <code>docker-compose up -d</code> can be used.
