@@ -7,13 +7,13 @@ import logging
 from zenml import step
 
 @step(enable_cache=True)
-def data_loader(path: str='data', daydelta: int=3) -> int:
+def data_loader(path: str='data', timedelta: int=3) -> int:
     """
     The function loads data from the Canada Wildfire Service and saves the wildfire images.
     
     Parameters:
     path (str): The base path where the images will be saved.
-    daydelta (int): The number of days prior to the current date for which the data is considered.
+    timedelta (int): The number of days prior to the current date for which the data is considered.
 
     Returns:
     int: The number of images saved.
@@ -25,7 +25,7 @@ def data_loader(path: str='data', daydelta: int=3) -> int:
     # Filter out entries without a start date and entries older than 'daydelta' days
     canada_wilfires = canada_wilfires.drop(canada_wilfires[canada_wilfires[' startdate'] == " "].index)
     canada_wilfires[' startdate'] = pd.to_datetime(canada_wilfires[' startdate'])
-    cut_date = datetime.datetime.today() - datetime.timedelta(days=daydelta)
+    cut_date = datetime.datetime.today() - datetime.timedelta(days=timedelta)
     relevant = canada_wilfires[canada_wilfires[' startdate']> cut_date]
     
     # Prepare URL string components for Mapbox API

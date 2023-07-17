@@ -6,7 +6,7 @@ from zenml.steps import Output
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from zenml.integrations.tensorflow.materializers.keras_materializer import KerasMaterializer
 
-@step(enable_cache=False, experiment_tracker='mlflow_experiment_tracker') 
+@step(experiment_tracker='mlflow_experiment_tracker') 
 def model_evaluator(model: tf.keras.Model, path: str='data', batch_size: int = 32) -> Output(test_acc_current=float, test_acc_production=float):
     """
     Evaluates the trained model on the test dataset.

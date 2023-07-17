@@ -46,24 +46,23 @@ def resnet_trainer(model: tf.keras.Model, epochs: int, path: str, batch_size:int
 
     # Concatenate a portion of the additional dataset to the test dataset
     train_ds = train_ds.concatenate(additional_ds.take(int(len(additional_ds)*0.6)))
-    #train_ds = train_ds.shuffle(buffer_size=1000)
 
     # Concatenate a portion of the additional dataset to the test dataset
     valid_ds = valid_ds.concatenate(additional_ds.skip(int(len(additional_ds)*0.6)).take(int(len(additional_ds)*0.2)))
-    #valid_ds = valid_ds.shuffle(buffer_size=1000)
 
     # Apply resizing and rescaling transformations to the dataset
     data_rescale = tf.keras.Sequential([
         tf.keras.layers.Resizing(350, 350),
         tf.keras.layers.Rescaling(1./255)
     ])
+
     train_ds = train_ds.map(lambda x, y: (data_rescale(x), y))
     valid_ds = valid_ds.map(lambda x, y: (data_rescale(x), y))
 
-    logging.info("Setting up the model architecture")
+    callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=2)
 
     
     mlflow.tensorflow.autolog()  # Ensure MLflow is tracking this model's training
-    model.fit(train_ds, validation_data=valid_ds, epochs=epochs)
+    model.fit(train_ds, validation_data=valid_ds, epochs=epochs, callbacks=[callback])
 
     return model
