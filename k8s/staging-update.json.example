@@ -1,0 +1,17 @@
+{
+    "cluster_name": "default",
+    "name": "staging",
+    "description": "",
+    "targets": [
+        {
+            "type": "stable",
+            "bento_repository": "wf_classifier",
+            "bento": "${BENTOTAG}",
+            "config": {
+                "hpa_conf": {
+                }
+            }
+        }
+    ],
+    "kube_namespace": "yatai"
+}

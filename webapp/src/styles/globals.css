@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.chakra-input__left-addon {
+    min-width: 75px;
+}

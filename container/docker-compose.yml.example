@@ -1,0 +1,153 @@
+version: "3.5"
+
+services:
+
+  caddy:
+    container_name: caddy_proxy
+    image: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    expose:
+      - 2018
+      - 2019
+    volumes:
+      - ./caddy/proxy:/etc/caddy/
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+
+  zenml:
+    container_name: zenml_server
+    image: zenmldocker/zenml-server:0.41.0
+    volumes:
+      - "./zenml:/zenml"
+    environment:
+      - ZENML_DEFAULT_USER_NAME=admin
+      - ZENML_DEFAULT_USER_PASSWORD=enterpriseai
+      - ZENML_STORE_URL=sqlite:////zenml/zenml.db
+    restart: on-failure
+
+  s3:
+    container_name: minio_s3
+    image: minio/minio
+    restart: unless-stopped
+    security_opt:
+      - label:disable   
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ACCESS_KEY_ID}
+      - MINIO_ROOT_PASSWORD=${MINIO_SECRET_ACCESS_KEY}
+      - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio/data:/data
+      - /etc/localtime:/etc/localtime:ro
+
+  mlflow:
+    container_name: mlflow_server
+    build: ./mlflow
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./mlflow/data:/mlflow"
+    environment:
+      - AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${MINIO_REGION}
+      - ARTIFACTS="s3://mlflow/artifacts/"
+      - MLFLOW_S3_ENDPOINT_URL=${MLFLOW_S3_ENDPOINT_URL}
+      - BACKEND_URI=sqlite:////mlflow/mlflow.db
+    links: 
+      - s3
+    entrypoint: mlflow server --backend-store-uri sqlite:////mlflow/mlflow.db --default-artifact-root s3://${MINIO_BUCKET_NAME}/ --artifacts-destination s3://${MINIO_BUCKET_NAME}/ -h 0.0.0.0
+    volumes:
+      - ./mlflow/data:/data/
+
+  create_s3_bucket:
+    container_name: minio_setup
+    image: minio/mc
+    depends_on:
+      - "s3"
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set minio http://s3:9000 '${MINIO_ACCESS_KEY_ID}' '${MINIO_SECRET_ACCESS_KEY}') do echo '...waiting...' && sleep 1; done;
+      /usr/bin/mc mb minio/${MINIO_BUCKET_NAME};
+      exit 0;
+      "
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.44.0
+    ports:
+      - 9090:9090
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+    - prometheus-data:/prometheus
+    - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - ./prometheus/alert.yml:/etc/prometheus/alert.yml:ro
+    depends_on:
+    - cadvisor
+    - node-exporter
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100  
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    expose:
+    - 8080
+    command:
+    - '-allow_dynamic_housekeeping=false'
+    - '-housekeeping_interval=10s'
+    - '-docker_only=true'
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+    - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+    - 6379:6379
+
+  grafana:
+    image: grafana/grafana:10.0.1
+    container_name: grafana
+    expose:
+      - 3000
+    volumes:
+      - "./grafana/config/grafana.ini:/etc/grafana/grafana.ini"
+      - "./grafana/config/data_source.yml:/etc/grafana/provisioning/datasources/data_source.yml"
+      - "./grafana/config/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml"
+      - "./grafana/dashboards:/etc/grafana/dashboards"
+    depends_on:
+      - prometheus
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+
+volumes:
+  prometheus-data:

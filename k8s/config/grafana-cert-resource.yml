@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-certificate
+  namespace: yatai-monitoring
+spec:
+  secretName: grafana-tls
+  issuerRef:
+    name: cert-grafana
+    kind: Issuer
+  commonName: grafana.{DOMAIN}
+  dnsNames:
+  - grafana.{DOMAIN}

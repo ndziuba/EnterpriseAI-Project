@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prod-canary
+  namespace: yatai
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Access-Control-Allow-Origin: $http_origin";
+      more_set_headers "Access-Control-Allow-Credentials: true";
+      more_set_headers "Access-Control-Allow-Methods: GET, POST, OPTIONS";
+      more_set_headers "Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization";       
+spec:
+  ingressClassName: nginx
+  tls:
+  - secretName: yatai.${DOMAIN}
+  rules:
+  - host: predict.yatai.${DOMAIN}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: prod
+            port:
+              number: 3000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: staging-canary
+  namespace: yatai
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "50"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Access-Control-Allow-Origin: $http_origin";
+      more_set_headers "Access-Control-Allow-Credentials: true";
+      more_set_headers "Access-Control-Allow-Methods: GET, POST, OPTIONS";
+      more_set_headers "Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization";       
+spec:
+  ingressClassName: nginx
+  tls:
+  - secretName: yatai.${DOMAIN}
+  rules:
+  - host: predict.yatai.${DOMAIN}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: staging
+            port:
+              number: 3000
