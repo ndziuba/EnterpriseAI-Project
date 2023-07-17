@@ -200,7 +200,7 @@ This notebook was used to test and explore the options to compress the model siz
 The only method that brought down the size of the model from 95mb to around 20mb was converting our model to a TFlite model but given the proprietary model architecture this change would have resulted in a lot of work adapting the pipeline and we did not consider it worth it in our case.
 
 ### api_load_test
-This notebook was used to get a feeling of how our API server handles load balancing and how it performs on longer sustained loads. As data, we randomly sampled 1/6th of our test dataset (overall accuracy 0.78) and scored a 0.48 accuracy on the sampled test data, but accuracy was not the focus in this experiment, as we already know how our model performs on the test dataset.
+This notebook was used to get a feeling of how our API server handles load balancing and how it performs on longer sustained loads. As data, we randomly sampled 1/6th of our test dataset (overall accuracy 0.91) and scored a 0.74 accuracy on the sampled test data, but accuracy was not the focus in this experiment, as we already know how our model performs on the test dataset. The average inference time was 2.63 seconds per image request.
 
 ## Major challenges
 
