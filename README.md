@@ -119,12 +119,18 @@ Also, the user has to login into Yatai, as further shown, with the server that i
 To automatically run the pipeline in predefined intervals, we added the option to run the pipeline on a fixed schedule for a set amount of times in the run.py file. 
 This option allows us to continuously update the model with up-to-date data, and retrain and update the production model without any additional user input.
 
-## Monitoring
+## Monitoring and Scaling Deployment
 
 We monitor the deployment requests with Grafana and Prometheus as shown in the following picture, it shows our 50/50 traffic split and resource usage.
 The information is extracted through endpoints in our Pods provided by BentoML that feed their metrics into Prometheus, where then a Dashboard in Grafana is set up to visualize them.
 
 ![grafik](https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/d2b459e1-9bfe-4879-a8b2-85c35211a60d)
+
+Because of our Usage of Kubernetes, if the load in and decreases the deployment can scale the number of Pods accordingly based on our configuration of min and max Replications of the API Server and Runner Pods.
+This scaling is also shown in the Yatai Dashboard, as shown in the following figure where with a load test of querying 1 Image per second the Runner scaled up from min 1 Pod to the max value of 2 Pods.
+
+![grafik](https://github.com/ndziuba/EnterpriseAI-Project/assets/26720962/1095a42a-11e8-4e9a-9daa-4e0321e56300)
+
 
 
 ## Next.js React App
