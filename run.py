@@ -3,7 +3,8 @@ import datetime
 from datetime import timedelta
 from zenml.pipelines import Schedule
 
-def main(path: str='data', batch_size: int=32, epochs: int=20, hp_tuning_epochs: int=1, timedelta: int=30):
+
+def main(path: str='data', batch_size: int=32, epochs: int=10, hp_tuning_epochs: int=1, timedelta: int=2):
     """Run the training  pipeline."""
 
 
