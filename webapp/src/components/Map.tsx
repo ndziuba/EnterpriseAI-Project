@@ -14,7 +14,7 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({ onLatChange, onLngChange }) => {
-  const [position, setPosition] = useState<LatLngExpression>([65, -120]);
+  const [position, setPosition] = useState<LatLngExpression>([53, -122]);
 
   useEffect(() => {
     // Only import the images when the component is loaded in the browser.
