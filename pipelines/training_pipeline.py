@@ -10,8 +10,8 @@ from steps import (
     hp_tuner
 )
 
-@pipeline(enable_cache=True)
-def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5, hp_tuning_epochs: int = 1):
+@pipeline()
+def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5, hp_tuning_epochs: int = 1, timedelta: int = 3, enable_cache=True):
     """Main pipeline to train, evaluate, and deploy a model.
 
     Args:
@@ -20,7 +20,7 @@ def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5, 
         epochs (int): Number of epochs for training.
     """
 
-    new_count = data_loader.data_loader()
+    data_loader.data_loader(timedelta=timedelta)
 
     optimal_model = hp_tuner.hp_tuner(epochs=hp_tuning_epochs, path=path, batch_size=batch_size)
 

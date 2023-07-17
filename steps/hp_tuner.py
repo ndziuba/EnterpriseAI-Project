@@ -43,7 +43,7 @@ def build_model(hp):
 
 
 
-@step(experiment_tracker='mlflow_experiment_tracker', output_materializers=KerasMaterializer, enable_cache=True) 
+@step(experiment_tracker='mlflow_experiment_tracker', output_materializers=KerasMaterializer) 
 def hp_tuner(epochs: int, path: str, batch_size:int) -> tf.keras.Model:
 
     train_ds = image_dataset_from_directory(
