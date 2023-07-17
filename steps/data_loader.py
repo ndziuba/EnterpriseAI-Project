@@ -6,7 +6,7 @@ import datetime
 import logging
 from zenml import step
 
-@step(enable_cache=True)
+@step()
 def data_loader(path: str='data', timedelta: int=3) -> int:
     """
     The function loads data from the Canada Wildfire Service and saves the wildfire images.

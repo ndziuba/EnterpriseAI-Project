@@ -11,7 +11,7 @@ from steps import (
 )
 
 @pipeline()
-def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5, hp_tuning_epochs: int = 1, timedelta: int = 3, enable_cache=True):
+def training_pipeline(path: str='data', batch_size: int = 32 , epochs: int = 5, hp_tuning_epochs: int = 1, timedelta: int = 3, enable_cache=False):
     """Main pipeline to train, evaluate, and deploy a model.
 
     Args:

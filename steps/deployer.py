@@ -5,7 +5,7 @@ from zenml import step
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from zenml.integrations.tensorflow.materializers.keras_materializer import KerasMaterializer
 
-@step(enable_cache=False)
+@step()
 def deployer(model: tf.keras.Model, decision: bool, path=''):
     """
     This function checks if a decision is made to save the current model and then saves it if it is.

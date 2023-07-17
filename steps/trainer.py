@@ -5,7 +5,7 @@ from zenml.integrations.tensorflow.materializers.keras_materializer import Keras
 from zenml import step
 import mlflow
 
-@step(output_materializers=KerasMaterializer, experiment_tracker='mlflow_experiment_tracker', enable_cache=True) 
+@step(output_materializers=KerasMaterializer, experiment_tracker='mlflow_experiment_tracker') 
 def resnet_trainer(model: tf.keras.Model, epochs: int, path: str, batch_size:int) -> tf.keras.Model:
     """
     This function trains a ResNet50 model with modified top layers for a specific task.

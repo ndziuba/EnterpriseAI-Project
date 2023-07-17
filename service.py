@@ -19,7 +19,6 @@ svc = bentoml.Service(name="wf_service", runners=[runner])
 async def predict_image(f: PILImage) -> NDArray[Any]:
     img_tensor  = tf.keras.utils.img_to_array(f)
     img_tensor = img_tensor/255
-    
     img_batch = tf.expand_dims(img_tensor , 0)
     
 
