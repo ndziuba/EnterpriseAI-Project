@@ -186,6 +186,9 @@ This notebook was used to test hyperparameter tuning on our model. As described 
 This notebook was used to test and explore the options to compress the model size, as out current model (mainly the ResNet base model) is camparably large. We tried implementing a pruning step to cut down the inference time and size of the model but it didn't lead to any significant performance gains.
 The only method that brought down the size of the model from 95mb to around 20mb was converting our model to a TFlite model but given the proprietary model architecture this change would have resulted in a lot of work adapting the pipeline and we did not consider it worth it in our case.
 
+### api_load_test
+This notebook was used to get a feeling on how our api-server handles load balancing and how it performance on longer sustained loads. As data we randomly sampled 1/6th of our test dataset (overall accuracy 0.78) and scored a 0.48 accuracy on the sampled test data, but accuracy was not the focus in this experiment, as we already know how our model performs on the test dataset.
+
 ## Major challenges
 
 ### Tensorflow GPU
