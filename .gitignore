@@ -11,3 +11,6 @@
 /models/
 /models/hp_tuning
 /mlruns
+node_modules
+.next
+webapp/data/feedback.db
