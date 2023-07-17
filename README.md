@@ -177,8 +177,7 @@ This notebook was used to do the initial experiments for deciding which basic mo
 ### integrated_gradient_test
 To better understand the workings of our model we applied the explainable AI method of Integrated Gradients (IG). We followed the tutorial (https://www.tensorflow.org/tutorials/interpretability/integrated_gradients). 
 The technique generates interpolations between a baseline (a black image) and the image. Generating the relevant gradients for each interpolation. A mask can be created with these gradients, highlighting the relevant pixels for the prediction.
-### API_test
-This notebook calls our final API with a random sample of 1000 images from our test set and generates metrics. 
+
 ### hp_tuning_test
 This notebook was used to test hyperparameter tuning on our model. As described in the hp_tuner step, we used the keras tuner package. We experimented with different layer sizes and activation functions with five epochs each. The results can be seen inside the notebook.
 
